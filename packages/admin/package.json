@@ -1,0 +1,7 @@
+{
+  "name": "@ohmynextjs/admin",
+  "version": "0.1.0",
+  "description": "Admin dashboard, user management, settings",
+  "main": "src/index.ts",
+  "license": "MIT"
+}

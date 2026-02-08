@@ -1,0 +1,7 @@
+{
+  "name": "@ohmynextjs/auth",
+  "version": "0.1.0",
+  "description": "Supabase authentication with social login",
+  "main": "src/index.ts",
+  "license": "MIT"
+}

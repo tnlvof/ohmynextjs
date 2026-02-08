@@ -1,0 +1,7 @@
+{
+  "name": "@ohmynextjs/payment",
+  "version": "0.1.0",
+  "description": "Payment module (TossPayments / PortOne)",
+  "main": "src/index.ts",
+  "license": "MIT"
+}

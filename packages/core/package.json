@@ -1,0 +1,7 @@
+{
+  "name": "@ohmynextjs/core",
+  "version": "0.1.0",
+  "description": "Core layout, routing, and base configuration",
+  "main": "src/index.ts",
+  "license": "MIT"
+}

@@ -1,0 +1,10 @@
+{
+  "name": "@ohmynextjs/db",
+  "version": "0.1.0",
+  "description": "Drizzle ORM schema and migrations",
+  "main": "src/index.ts",
+  "license": "MIT",
+  "dependencies": {
+    "drizzle-orm": "^0.38.0"
+  }
+}

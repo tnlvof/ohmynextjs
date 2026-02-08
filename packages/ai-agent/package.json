@@ -1,0 +1,7 @@
+{
+  "name": "@ohmynextjs/ai-agent",
+  "version": "0.1.0",
+  "description": "AI agent rulesets, commands, and sub-agent presets",
+  "main": "src/index.ts",
+  "license": "MIT"
+}
