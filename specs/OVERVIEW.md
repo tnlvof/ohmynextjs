@@ -133,7 +133,12 @@ Vercel Engineering의 40+ 룰, 8개 카테고리를 따른다:
 - 모든 Server Action에 인증/인가, zod 입력 검증, Drizzle parameterized query
 - 보안 헤더, rate limiting, audit_logs, 웹훅 서명 검증
 
-### 7.4 TDD (→ [TESTING.md](./TESTING.md))
+### 7.4 바이브코딩 원칙 (→ [VIBE-CODING-PRINCIPLES.md](./VIBE-CODING-PRINCIPLES.md))
+- **10가지 원칙**: YAGNI, Unix 철학, Design by Contract, 관심사의 분리, 점진적 개선, 방어적 프로그래밍, 바이브 TDD, Convention over Configuration, 최소 놀람의 원칙, 피드백 루프
+- 이 원칙들은 모든 개발 과정에 적용되는 **핵심 철학**
+- ohmynextjs의 차별점이자 브랜드 아이덴티티
+
+### 7.5 TDD (→ [TESTING.md](./TESTING.md))
 - **Vitest** (단위/통합) + **Playwright** (E2E)
 - Red → Green → Refactor 사이클
 - 테스트 커버리지 목표: **80%+**
