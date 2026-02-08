@@ -1,38 +1,23 @@
-export const defaultRules = {
-  cursorrules: `
-You are working on an ohmynextjs project.
+export const defaultRules = `## 코드 컨벤션
+- 함수형 컴포넌트만 사용 (no class components)
+- Server Components 기본, 'use client' 최소화
+- Server Actions for mutations
+- named export 선호
+- 파일명: kebab-case
+- 컴포넌트: PascalCase
+- zod로 모든 입력 검증
+- 에러는 try-catch로 처리, 사용자 친화적 메시지
 
-Tech Stack:
-- Next.js 15 (App Router)
-- Supabase (Auth + DB)
-- Drizzle ORM
-- TypeScript
-- Tailwind CSS
+## 규칙
+- 새 파일 생성 시 해당 패키지의 index.ts에 export 추가
+- DB 변경 시 반드시 마이그레이션 생성
+- API 응답은 \`{ data }\` 또는 \`{ error: { code, message } }\` 형식
+- 한국어 사용자 대상, UI 텍스트는 한국어
+- 스펙 문서(specs/)를 먼저 확인하고 구현
 
-Conventions:
-- Use server components by default
-- Use 'use client' only when needed
-- Follow the modular package structure under packages/
-- Use Drizzle for all DB operations
-- Use Supabase for auth
-`,
-  agentsMd: `
-# AGENTS.md
-
-## Project: ohmynextjs
-Modular full-stack starter kit.
-
-## Structure
-- packages/core — base config
-- packages/db — Drizzle schema
-- packages/auth — Supabase auth
-- packages/admin — admin dashboard
-- packages/payment — TossPayments/PortOne
-- packages/ai-agent — this module
-
-## Rules
-- Keep modules independent
-- Export everything from index.ts
-- Type everything
-`,
-};
+## 커밋 컨벤션
+- feat: 새 기능
+- fix: 버그 수정
+- refactor: 리팩토링
+- docs: 문서
+- chore: 설정/빌드`;

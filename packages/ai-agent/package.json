@@ -3,5 +3,15 @@
   "version": "0.1.0",
   "description": "AI agent rulesets, commands, and sub-agent presets",
   "main": "src/index.ts",
-  "license": "MIT"
+  "license": "MIT",
+  "scripts": {
+    "generate:agents-md": "tsx src/generators/agents-md.ts",
+    "generate:all": "tsx src/generators/agents-md.ts",
+    "test": "vitest run"
+  },
+  "devDependencies": {
+    "tsx": "^4.0.0",
+    "typescript": "^5.0.0",
+    "vitest": "^3.0.0"
+  }
 }
