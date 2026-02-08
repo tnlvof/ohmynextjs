@@ -37,18 +37,18 @@ git clone https://github.com/tnlvof/ohmynextjs.git my-app
 cd my-app
 
 # 의존성 설치
-pnpm install
+bun install
 
 # 환경변수 설정
 cp apps/web/.env.example apps/web/.env.local
 # .env.local 파일을 열어 Supabase, 토스 키 입력
 
 # DB 설정
-pnpm db:push    # 스키마 푸시
-pnpm db:seed    # 시드 데이터
+bun run db:push    # 스키마 푸시
+bun run db:seed    # 시드 데이터
 
 # 개발 서버
-pnpm dev
+bun run dev
 ```
 
 ## 바이브코딩 원칙
@@ -78,16 +78,16 @@ pnpm dev
 
 ```bash
 # 전체 테스트
-pnpm test
+bun run test
 
 # 모듈별 테스트
-pnpm test:db
-pnpm test:core
-pnpm test:auth
-pnpm test:admin
-pnpm test:payment
-pnpm test:ai-agent
-pnpm test:web
+bun run test:db
+bun run test:core
+bun run test:auth
+bun run test:admin
+bun run test:payment
+bun run test:ai-agent
+bun run test:web
 ```
 
 ## 배포
