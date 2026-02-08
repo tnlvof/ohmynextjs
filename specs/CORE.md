@@ -203,7 +203,26 @@ export * from './hooks';
 - Provider 미사용 시 명확한 에러 메시지 (Context 없음 에러)
 - 테마 hydration 에러 방지: `suppressHydrationWarning` + `mounted` 체크
 
-## 7. 구현 우선순위
+## 7. 테스트 전략
+
+| 대상 | 유형 | 주요 케이스 |
+|------|------|------------|
+| `cn()` | 단위 (Vitest) | 클래스 병합, 조건부 클래스, Tailwind 충돌 해결 |
+| `useMediaQuery` | 단위 | breakpoint 감지, SSR 기본값, resize 이벤트 |
+| `useMounted` | 단위 | 초기 false, mount 후 true |
+| `ThemeProvider` | 컴포넌트 | 테마 전환, localStorage 저장, system 감지 |
+| `ThemeToggle` | 컴포넌트 | 클릭 시 테마 변경, 아이콘 렌더링 |
+| `Header` | 컴포넌트 | navItems 렌더링, 모바일 메뉴, 인증 상태별 UI |
+| `Sidebar` | 컴포넌트 | 접기/펼치기, 활성 상태, 중첩 메뉴 |
+| `OhMyProvider` | 통합 | Provider 중첩 순서, config 전달 |
+
+## 8. 보안 고려사항
+
+- `ThemeProvider`: `suppressHydrationWarning` 사용하되, XSS에 취약한 커스텀 스크립트 삽입 금지
+- 외부 이미지 URL (아바타): `next/image` domains 설정으로 허용 도메인 제한
+- `config` 객체: 클라이언트에 노출되므로 민감 정보 포함 금지
+
+## 9. 구현 우선순위
 
 1. `cn` 유틸 + shadcn/ui 설정
 2. `ThemeProvider` + `ThemeToggle`

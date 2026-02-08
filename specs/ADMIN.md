@@ -226,7 +226,31 @@ export { SettingsList, SettingsForm } from './components/settings';
 export * from './hooks';
 ```
 
-## 8. 구현 우선순위
+## 8. 테스트 전략
+
+| 대상 | 유형 | 주요 케이스 |
+|------|------|------------|
+| `requireAdmin` | 단위 (Vitest) | admin 허용, 일반 유저 거부, 미인증 거부 |
+| `getAdminStats` | 단위 | 통계 계산, 전일 대비 증감, 빈 데이터 처리 |
+| `updateUserRole` | 단위 | 역할 변경, 자기 자신 변경 거부, audit_logs 기록 |
+| `updateUserStatus` | 단위 | 밴/활성화, 세션 무효화 호출, audit_logs 기록 |
+| `deleteUser` | 단위 | 소프트 삭제, auth 비활성화 |
+| `refundPayment` | 단위 | 전액/부분 환불, 토스 API 호출, 상태 업데이트 |
+| `StatsCards` | 컴포넌트 | 숫자 포맷, 증감 표시, 로딩 상태 |
+| `UserTable` | 컴포넌트 | 목록 렌더링, 정렬, 필터, 페이지네이션 |
+| `RefundDialog` | 컴포넌트 | 입력 유효성, 확인 다이얼로그, 에러 표시 |
+| 관리자 플로우 | E2E (Playwright) | 유저 목록 → 역할 변경 → 밴, 설정 CRUD |
+
+## 9. 보안 고려사항
+
+- **모든 액션에 `requireAdmin()`**: 미들웨어만으로 불충분, Server Action마다 검증
+- **자기 자신 역할 변경 금지**: 실수로 admin 권한 제거 방지
+- **환불 금액 검증**: 원래 결제 금액 초과 환불 방지
+- **audit_logs 필수**: 역할 변경, 밴, 환불, 설정 변경 등 모든 민감 액션 기록
+- **CSV 내보내기**: admin 인증 + rate limiting, 대량 데이터 유출 방지
+- **설정 관리**: `isPublic=false` 설정은 서버에서만 접근
+
+## 10. 구현 우선순위
 
 1. AdminLayout + 사이드바
 2. 유저 관리 (CRUD)

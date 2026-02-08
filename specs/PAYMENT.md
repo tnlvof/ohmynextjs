@@ -332,7 +332,36 @@ export { generateOrderId, formatPrice } from './lib';
 export type * from './types';
 ```
 
-## 12. 구현 우선순위
+## 12. 테스트 전략
+
+| 대상 | 유형 | 주요 케이스 |
+|------|------|------------|
+| `TossClient` | 단위 (MSW) | API 호출 성공/실패, 인증 헤더, 에러 파싱 |
+| `createOrder` | 단위 | 주문 생성, orderId 형식, 인증 체크, DB 저장 |
+| `confirmPayment` | 단위 | 금액 검증 (위변조 방지), 토스 승인, DB 업데이트, 구독 연동 |
+| `cancelPayment` | 단위 | 전액 환불, 부분 환불, 이미 환불된 결제, 토스 API 에러 |
+| `createSubscription` | 단위 | 빌링키 발급, 첫 결제, DB 생성 |
+| `cancelSubscription` | 단위 | 기간 종료 시 취소, 즉시 취소 + 비례 환불 |
+| `generateOrderId` | 단위 | 형식 검증, 유일성 |
+| `formatPrice` | 단위 | 원화 포맷, 0원, 대금액 |
+| `PricingTable` | 컴포넌트 | 플랜 렌더링, 현재 플랜 하이라이트, 선택 콜백 |
+| `PaymentButton` | 컴포넌트 | 클릭 시 createOrder 호출, 로딩 상태 |
+| `PaymentHistory` | 컴포넌트 | 목록 렌더링, 상태 뱃지, 빈 상태 |
+| `SubscriptionStatus` | 컴포넌트 | 상태별 UI, 다음 결제일, 취소 버튼 |
+| 결제 플로우 | E2E (Playwright) | 요금제 선택 → 결제 → 완료 (토스 테스트 모드) |
+
+## 13. 보안 고려사항
+
+- **금액 위변조 방지**: `confirmPayment`에서 서버측 amount 검증 필수
+- **토스 시크릿 키**: 서버 전용 (`TOSS_SECRET_KEY`), 클라이언트 절대 노출 금지
+- **웹훅 서명 검증**: `TossPayments-Signature` 헤더로 위조 방지
+- **인증 체크**: 모든 결제 Server Action에 `requireAuth()` 필수
+- **결제 상태 머신**: pending → paid → refunded 순서 강제, 잘못된 상태 전이 방지
+- **빌링키 보안**: DB 저장 시 접근 제한, 로그에 노출 금지
+- **Rate Limiting**: 결제 API 5회/분 (유저 기준)
+- **audit_logs**: 결제 승인, 환불 등 모든 금융 이벤트 기록
+
+## 14. 구현 우선순위
 
 1. 토스 API 클라이언트
 2. 단건 결제 (주문 생성 → 승인)

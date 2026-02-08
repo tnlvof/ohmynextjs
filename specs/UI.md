@@ -241,7 +241,36 @@ components/
     └── confirm-dialog.tsx    # 확인 다이얼로그
 ```
 
-## 7. 구현 우선순위
+## 7. 테스트 전략
+
+| 대상 | 유형 | 주요 케이스 |
+|------|------|------------|
+| 랜딩 페이지 | E2E (Playwright) | 렌더링, CTA 클릭, 반응형 레이아웃 |
+| 로그인 페이지 | E2E | 폼 제출, 유효성 검증, 소셜 버튼 |
+| 회원가입 페이지 | E2E | 폼 제출, 중복 이메일 에러 |
+| 대시보드 | E2E | 인증 리다이렉트, 환영 메시지 |
+| 관리자 | E2E | 유저 테이블, 역할 변경, 설정 |
+| 결제 플로우 | E2E | 요금제 선택 → 성공/실패 페이지 |
+| 404/에러 | E2E | 존재하지 않는 경로, 서버 에러 표시 |
+| `loading.tsx` | 컴포넌트 (Vitest) | 스켈레톤 렌더링 |
+| `empty-state.tsx` | 컴포넌트 | 메시지, 아이콘, CTA 렌더링 |
+| `confirm-dialog.tsx` | 컴포넌트 | 열기/닫기, 확인/취소 콜백 |
+| 레이아웃 | 컴포넌트 | Provider 포함, 조건부 Header/Sidebar |
+
+### 접근성 테스트
+- 모든 E2E 테스트에 `axe-playwright` 통합
+- ARIA 라벨, 키보드 네비게이션, 색상 대비 확인
+
+## 8. 보안 고려사항
+
+- **(auth) 레이아웃**: 로그인 상태 시 dashboard로 리다이렉트 (미들웨어)
+- **(dashboard) 레이아웃**: 미인증 시 login으로 리다이렉트 (미들웨어)
+- **(admin) 레이아웃**: admin role 필수 (미들웨어 + 서버 컴포넌트 체크)
+- **결제 페이지**: `/payment/success`의 query params(orderId, paymentKey) 서버에서 검증
+- **CSP**: 인라인 스크립트 제한, 토스 SDK 도메인 허용
+- **이미지**: `next/image` domains 설정으로 외부 이미지 제한
+
+## 9. 구현 우선순위
 
 1. 루트 레이아웃 + OhMyProvider 연결
 2. Auth 페이지 (login, signup)

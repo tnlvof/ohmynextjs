@@ -111,6 +111,34 @@ interface ApiSuccess<T> {
 }
 ```
 
+## 7. 개발 원칙
+
+모든 코드는 아래 4가지 원칙을 준수한다. 각 원칙의 상세 내용은 별도 스펙 참조.
+
+### 7.1 React Best Practices (→ [REACT-BEST-PRACTICES.md](./REACT-BEST-PRACTICES.md))
+Vercel Engineering의 40+ 룰, 8개 카테고리를 따른다:
+- **CRITICAL**: Waterfall 제거, 번들 사이즈 최적화
+- **HIGH**: 서버 사이드 성능 (Server Action 인증, RSC 최소 직렬화, React.cache)
+- **MEDIUM+**: 클라이언트 데이터 페칭 (SWR), 리렌더 최적화, 렌더링 성능
+- **LOW+**: JS 성능 최적화, 고급 패턴
+
+### 7.2 Clean Code (→ [CLEAN-CODE.md](./CLEAN-CODE.md))
+- **SOLID** 원칙 (단일 책임, 개방/폐쇄, 리스코프 치환, 인터페이스 분리, 의존성 역전)
+- **DRY, KISS, YAGNI** — 중복 제거, 단순하게, 필요한 것만
+- 의미 있는 네이밍, 함수는 한 가지만, 주석 대신 자명한 코드
+- Early return으로 깊은 중첩 회피, 매직 넘버 금지
+
+### 7.3 보안 — OWASP Top 10 (→ [SECURITY.md](./SECURITY.md))
+- A01~A10 모든 항목에 대한 구체적 예방 코드
+- 모든 Server Action에 인증/인가, zod 입력 검증, Drizzle parameterized query
+- 보안 헤더, rate limiting, audit_logs, 웹훅 서명 검증
+
+### 7.4 TDD (→ [TESTING.md](./TESTING.md))
+- **Vitest** (단위/통합) + **Playwright** (E2E)
+- Red → Green → Refactor 사이클
+- 테스트 커버리지 목표: **80%+**
+- 모든 Server Action, API Route, 비즈니스 로직에 테스트 필수
+
 ### 환경 변수
 - 모든 환경 변수는 `NEXT_PUBLIC_` prefix로 클라이언트 노출 여부 구분
 - 서버 전용: `SUPABASE_SERVICE_ROLE_KEY`, `TOSS_SECRET_KEY`

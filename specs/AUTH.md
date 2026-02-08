@@ -334,7 +334,34 @@ export { authMiddleware, protectedRoutes, adminRoutes } from './middleware';
 export type { OAuthProvider, User } from './types';
 ```
 
-## 8. 구현 우선순위
+## 8. 테스트 전략
+
+| 대상 | 유형 | 주요 케이스 |
+|------|------|------------|
+| `signIn` | 단위 (Vitest) | 성공, 잘못된 credentials, 밴된 유저, 이메일 미인증 |
+| `signUp` | 단위 | 성공, 중복 이메일, 약한 비밀번호, users 테이블 동기화 |
+| `signOut` | 단위 | 세션 삭제, 쿠키 정리 |
+| `signInWithOAuth` | 단위 | 리다이렉트 URL 생성, provider별 queryParams |
+| `resetPassword` | 단위 | 이메일 발송, 새 비밀번호 설정 |
+| `authMiddleware` | 단위 | 보호 라우트 리다이렉트, admin 라우트 role 체크, 세션 갱신 |
+| `AuthForm` | 컴포넌트 | 로그인/회원가입 모드 전환, 유효성 검증, 에러 표시, 제출 |
+| `SocialButtons` | 컴포넌트 | 버튼 렌더링, 클릭 시 OAuth 호출, 로딩 상태 |
+| `UserButton` | 컴포넌트 | 아바타 표시, 드롭다운 메뉴, admin 메뉴 조건부 표시 |
+| `AuthGuard` | 컴포넌트 | 인증 시 children 렌더링, 미인증 시 fallback/리다이렉트 |
+| `useUser` / `useSession` | 단위 | 로딩 상태, 유저 데이터 반환, 에러 처리 |
+| 로그인 플로우 | E2E (Playwright) | 이메일 로그인, 잘못된 비밀번호, 미인증 리다이렉트 |
+
+## 9. 보안 고려사항
+
+- **Supabase Auth 위임**: 비밀번호 해싱, 토큰 관리 등 직접 구현 금지
+- **세션 갱신**: 미들웨어에서 매 요청마다 토큰 리프레시
+- **banned 유저**: 로그인 차단 + 기존 세션 무효화 (`supabaseAdmin.auth.admin.signOut`)
+- **Rate Limiting**: 로그인/회원가입 엔드포인트에 10회/분 제한 (IP 기준)
+- **OAuth callback**: state 파라미터 검증 (CSRF 방지, Supabase가 자동 처리)
+- **환경 변수**: `SUPABASE_SERVICE_ROLE_KEY`는 서버 전용, 클라이언트 절대 노출 금지
+- **에러 메시지**: 유저 존재 여부를 유추할 수 없도록 일반적 메시지 사용
+
+## 10. 구현 우선순위
 
 1. Supabase 클라이언트 (browser + server)
 2. 이메일/비밀번호 로그인/회원가입

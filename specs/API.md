@@ -193,7 +193,34 @@ const updateUserRoleSchema = z.object({
   → Route Handler / Page
 ```
 
-## 7. Rate Limiting (권장)
+## 7. 테스트 전략
+
+| 대상 | 유형 | 주요 케이스 |
+|------|------|------------|
+| `GET /api/auth/callback` | 통합 (Vitest) | 유효한 code → 세션 교환, 무효 code → 에러 리다이렉트 |
+| `GET /api/auth/confirm` | 통합 | signup 확인, recovery 리다이렉트 |
+| `POST /api/payment/confirm` | 통합 (MSW) | 금액 검증, 토스 승인 성공/실패, 미인증 거부 |
+| `POST /api/payment/webhook` | 통합 | 서명 검증, 이벤트별 처리, 잘못된 서명 거부 |
+| `GET /api/cron/billing` | 통합 | 만료 구독 결제, 실패 재시도, CRON_SECRET 검증 |
+| `GET /api/admin/export/*` | 통합 | CSV 생성, admin 인증, 일반 유저 거부 |
+| zod 스키마 | 단위 | 유효/무효 입력, 에지 케이스, 타입 변환 |
+| Server Action 인증 | 단위 | requireAuth 성공/실패, requireAdmin 성공/실패 |
+
+### 모킹 전략
+- 외부 API (토스, Supabase Auth): MSW로 HTTP 레벨 모킹
+- DB: 테스트 DB 또는 vitest mock
+- 인증: Supabase 클라이언트 mock
+
+## 8. 보안 고려사항
+
+- **모든 Route Handler/Server Action에 인증**: 미들웨어 + 함수 내부 이중 체크
+- **zod 검증 필수**: 모든 사용자 입력 (body, query, params)
+- **웹훅 서명 검증**: 토스 웹훅, Cron 시크릿
+- **CORS**: Next.js 기본 설정 (같은 도메인만 허용)
+- **에러 노출 제한**: 프로덕션에서 `details` 필드 비활성화
+- **요청 크기 제한**: body-parser 기본값 활용
+
+## 9. Rate Limiting (권장)
 
 | 엔드포인트 | 제한 |
 |-----------|------|

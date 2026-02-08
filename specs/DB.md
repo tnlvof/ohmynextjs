@@ -303,7 +303,33 @@ export * from './relations';
 - unique constraint 위반 시 사용자 친화적 메시지 변환
 - 마이그레이션 실패 시 롤백 가이드 제공
 
-## 13. Supabase RLS (Row Level Security)
+## 13. 테스트 전략
+
+| 대상 | 유형 | 주요 케이스 |
+|------|------|------------|
+| 스키마 | 통합 (테스트 DB) | 마이그레이션 적용, 테이블/컬럼 존재 확인 |
+| users CRUD | 통합 | 생성, 조회, 수정, 삭제, unique 위반 |
+| payments CRUD | 통합 | 생성, 상태 변경, FK 관계, 금액 계산 |
+| subscriptions | 통합 | 생성, 기간 갱신, 취소, 만료 조회 |
+| 관계 조회 | 통합 | user → payments, user → subscriptions |
+| 인덱스 | 통합 | 쿼리 성능 확인 (EXPLAIN) |
+| seed | 통합 | 시드 데이터 삽입, 중복 실행 안전성 |
+
+### 테스트 DB 설정
+- Docker Compose로 별도 PostgreSQL 인스턴스 (포트 5433)
+- 테스트 전 마이그레이션 적용, 테스트 후 데이터 정리
+- 상세: [TESTING.md](./TESTING.md) §7 참고
+
+## 14. 보안 고려사항
+
+- **RLS 필수**: 모든 테이블에 Row Level Security 활성화
+- **service_role key**: 서버 전용, 클라이언트 노출 절대 금지
+- **SQL Injection 방지**: Drizzle ORM만 사용, raw SQL 금지 (불가피 시 `sql` 태그)
+- **민감 데이터**: `metadata` 컬럼에 PII 저장 시 접근 제어 강화
+- **audit_logs**: 보안 이벤트 기록용, 삭제 불가 정책 권장
+- **인덱스**: 개인정보 컬럼(email) 인덱스 존재 확인, 필요 시 partial index
+
+## 15. Supabase RLS (Row Level Security)
 
 Supabase 사용 시 RLS 정책도 마이그레이션에 포함:
 
