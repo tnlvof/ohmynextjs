@@ -1,9 +1,0 @@
-feat(db): implement @ohmynextjs/db with TDD
-
-- 6 tables: users, plans, payments, subscriptions, app_settings, audit_logs
-- 5 enums: user_role, user_status, payment_status, subscription_status, payment_method
-- Drizzle relations
-- Drizzle client with Supabase connection pooling
-- Seed data script
-- Unit tests for all schemas
-- Tests passing
