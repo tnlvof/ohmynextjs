@@ -3,5 +3,29 @@
   "version": "0.1.0",
   "description": "Supabase authentication with social login",
   "main": "src/index.ts",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "@supabase/supabase-js": "^2.47",
+    "@supabase/ssr": "^0.5"
+  },
+  "peerDependencies": {
+    "next": "^15",
+    "react": "^19",
+    "@ohmynextjs/core": "*",
+    "@ohmynextjs/db": "*"
+  },
+  "devDependencies": {
+    "vitest": "^3",
+    "@vitejs/plugin-react": "^4",
+    "@testing-library/react": "^16",
+    "@testing-library/jest-dom": "^6",
+    "jsdom": "^25",
+    "typescript": "^5",
+    "@types/react": "^19",
+    "@types/react-dom": "^19"
+  },
+  "scripts": {
+    "test": "vitest",
+    "test:run": "vitest run"
+  }
 }
