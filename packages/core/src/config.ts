@@ -1,9 +1,32 @@
 export interface OhMyConfig {
-  appName: string;
-  modules: string[];
+  app: {
+    name: string;
+    description?: string;
+    url?: string;
+  };
+  theme?: {
+    defaultTheme?: 'light' | 'dark' | 'system';
+    storageKey?: string;
+  };
+  layout?: {
+    header?: boolean;
+    footer?: boolean;
+    sidebar?: boolean;
+  };
 }
 
-export const config: OhMyConfig = {
-  appName: 'ohmynextjs',
-  modules: [],
+export const defaultConfig: OhMyConfig = {
+  app: {
+    name: 'OhMyNextJS',
+    description: 'Next.js SaaS Boilerplate',
+  },
+  theme: {
+    defaultTheme: 'system',
+    storageKey: 'ohmynextjs-theme',
+  },
+  layout: {
+    header: true,
+    footer: true,
+    sidebar: false,
+  },
 };

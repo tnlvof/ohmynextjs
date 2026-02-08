@@ -3,5 +3,31 @@
   "version": "0.1.0",
   "description": "Core layout, routing, and base configuration",
   "main": "src/index.ts",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "next-themes": "^0.4",
+    "sonner": "^1.7",
+    "clsx": "^2",
+    "tailwind-merge": "^2",
+    "lucide-react": "^0.460"
+  },
+  "peerDependencies": {
+    "next": "^15",
+    "react": "^19",
+    "react-dom": "^19"
+  },
+  "devDependencies": {
+    "vitest": "^3",
+    "@vitejs/plugin-react": "^4",
+    "@testing-library/react": "^16",
+    "@testing-library/jest-dom": "^6",
+    "jsdom": "^25",
+    "typescript": "^5",
+    "@types/react": "^19",
+    "@types/react-dom": "^19"
+  },
+  "scripts": {
+    "test": "vitest",
+    "test:run": "vitest run"
+  }
 }

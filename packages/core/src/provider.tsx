@@ -1,11 +1,31 @@
 'use client';
 
-import { ReactNode } from 'react';
+import React from 'react';
+import { ThemeProvider } from './components/theme/theme-provider';
+import { Toaster } from 'sonner';
+import { type OhMyConfig, defaultConfig } from './config';
 
-interface OhMyProviderProps {
-  children: ReactNode;
+export interface OhMyProviderProps {
+  children: React.ReactNode;
+  config?: Partial<OhMyConfig>;
 }
 
-export function OhMyProvider({ children }: OhMyProviderProps) {
-  return <>{children}</>;
+export function OhMyProvider({ children, config }: OhMyProviderProps) {
+  const mergedConfig = {
+    ...defaultConfig,
+    ...config,
+    app: { ...defaultConfig.app, ...config?.app },
+    theme: { ...defaultConfig.theme, ...config?.theme },
+    layout: { ...defaultConfig.layout, ...config?.layout },
+  };
+
+  return (
+    <ThemeProvider
+      defaultTheme={mergedConfig.theme?.defaultTheme}
+      storageKey={mergedConfig.theme?.storageKey}
+    >
+      {children}
+      <Toaster richColors position="top-right" />
+    </ThemeProvider>
+  );
 }
