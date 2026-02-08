@@ -8,9 +8,23 @@
     "apps/*"
   ],
   "scripts": {
-    "dev": "npm run dev --workspace=apps/web",
-    "build": "npm run build --workspace=apps/web",
-    "lint": "npm run lint --workspace=apps/web"
+    "dev": "pnpm --filter web dev",
+    "build": "pnpm --filter web build",
+    "start": "pnpm --filter web start",
+    "lint": "pnpm --filter web lint",
+    "test": "pnpm -r test",
+    "test:db": "pnpm --filter @ohmynextjs/db test",
+    "test:core": "pnpm --filter @ohmynextjs/core test",
+    "test:auth": "pnpm --filter @ohmynextjs/auth test",
+    "test:admin": "pnpm --filter @ohmynextjs/admin test",
+    "test:payment": "pnpm --filter @ohmynextjs/payment test",
+    "test:ai-agent": "pnpm --filter @ohmynextjs/ai-agent test",
+    "test:web": "pnpm --filter web test",
+    "db:generate": "pnpm --filter @ohmynextjs/db db:generate",
+    "db:migrate": "pnpm --filter @ohmynextjs/db db:migrate",
+    "db:push": "pnpm --filter @ohmynextjs/db db:push",
+    "db:seed": "pnpm --filter @ohmynextjs/db db:seed",
+    "db:studio": "pnpm --filter @ohmynextjs/db db:studio"
   },
   "keywords": [
     "nextjs",
