@@ -4,7 +4,23 @@
   "description": "Drizzle ORM schema and migrations",
   "main": "src/index.ts",
   "license": "MIT",
+  "scripts": {
+    "db:generate": "drizzle-kit generate",
+    "db:migrate": "drizzle-kit migrate",
+    "db:push": "drizzle-kit push",
+    "db:studio": "drizzle-kit studio",
+    "db:seed": "tsx src/seed.ts",
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
   "dependencies": {
-    "drizzle-orm": "^0.38.0"
+    "drizzle-orm": "^0.38.0",
+    "postgres": "^3.4.0"
+  },
+  "devDependencies": {
+    "drizzle-kit": "^0.30.0",
+    "vitest": "^3.0.0",
+    "tsx": "^4.0.0",
+    "typescript": "^5.0.0"
   }
 }
