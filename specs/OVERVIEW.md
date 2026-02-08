@@ -138,7 +138,14 @@ Vercel Engineering의 40+ 룰, 8개 카테고리를 따른다:
 - 이 원칙들은 모든 개발 과정에 적용되는 **핵심 철학**
 - ohmynextjs의 차별점이자 브랜드 아이덴티티
 
-### 7.5 TDD (→ [TESTING.md](./TESTING.md))
+### 7.5 Postgres Best Practices (→ [POSTGRES-BEST-PRACTICES.md](./POSTGRES-BEST-PRACTICES.md))
+- Supabase의 30개 레퍼런스, 8개 카테고리
+- **CRITICAL**: Query Performance, Connection Management, Security & RLS
+- **HIGH**: Schema Design
+- **MEDIUM+**: Concurrency & Locking, Data Access Patterns
+- **LOW+**: Monitoring & Diagnostics, Advanced Features
+
+### 7.6 TDD (→ [TESTING.md](./TESTING.md))
 - **Vitest** (단위/통합) + **Playwright** (E2E)
 - Red → Green → Refactor 사이클
 - 테스트 커버리지 목표: **80%+**

@@ -297,13 +297,81 @@ export * from './schema';
 export * from './relations';
 ```
 
-## 12. 에러 처리
+## 12. Postgres Best Practices 적용
+
+> 상세: [POSTGRES-BEST-PRACTICES.md](./POSTGRES-BEST-PRACTICES.md)
+
+### 12.1 인덱스 전략
+
+| 전략 | 적용 대상 | 예시 |
+|------|----------|------|
+| **단일 인덱스** | 모든 FK 컬럼, WHERE 빈도 높은 컬럼 | `payments_user_id_idx`, `users_email_idx` |
+| **복합 인덱스** | 자주 함께 필터링되는 컬럼 | `(status, created_at)` — equality 먼저, range 나중 |
+| **Partial 인덱스** | soft-delete, 상태 필터 | `WHERE status = 'pending'`, `WHERE deleted_at IS NULL` |
+| **Covering 인덱스** | SELECT 컬럼까지 인덱스 포함 | `(email) INCLUDE (name, created_at)` |
+| **BRIN** | 시계열 대용량 | `audit_logs(created_at)` — 100M+ 행 시 |
+| **GIN** | JSONB, 배열, 전문검색 | `metadata` 컬럼 검색 시 |
+
+**현재 스키마 인덱스 점검:**
+- ✅ 모든 FK에 인덱스 (payments.user_id, subscriptions.user_id 등)
+- ✅ 자주 조회하는 컬럼 (email, status, created_at)
+- ⬜ 복합 인덱스 추가 고려: `payments(status, created_at)`, `subscriptions(status, currentPeriodEnd)`
+- ⬜ audit_logs 대용량 시 BRIN 인덱스 전환
+
+### 12.2 RLS 정책
+
+모든 테이블에 RLS 활성화 + FORCE 적용:
+
+```sql
+-- 성능 최적화된 RLS 패턴 (auth.uid()를 SELECT로 래핑 → 1회만 호출)
+CREATE POLICY "users_select" ON users
+  FOR SELECT TO authenticated
+  USING (id = (SELECT auth.uid()));
+
+CREATE POLICY "payments_select" ON payments
+  FOR SELECT TO authenticated
+  USING (user_id = (SELECT auth.uid()));
+
+-- admin 역할은 별도 정책
+CREATE POLICY "admin_all" ON users
+  FOR ALL TO authenticated
+  USING (
+    (SELECT role FROM users WHERE id = (SELECT auth.uid())) = 'admin'
+  );
+```
+
+### 12.3 커넥션 풀링
+
+```typescript
+// client.ts — Supabase Transaction 모드 풀링 최적화
+const client = postgres(process.env.DATABASE_URL!, {
+  prepare: false,     // Transaction 모드 필수
+  max: 10,            // 앱 레벨 풀 (CPU cores * 2 + 1)
+  idle_timeout: 20,   // 유휴 커넥션 정리
+});
+```
+
+- Supabase 포트 6543 (Transaction 모드) 사용
+- `prepare: false` 필수 (prepared statement 충돌 방지)
+- Vercel Serverless 환경에서 커넥션 폭증 방지
+
+### 12.4 쿼리 최적화 가이드
+
+| 규칙 | 설명 | 적용 |
+|------|------|------|
+| **N+1 제거** | 루프 안에서 쿼리 금지 | Drizzle `with` relations 사용 |
+| **커서 페이지네이션** | OFFSET 대신 WHERE > cursor | 관리자 목록, 로그 조회 |
+| **짧은 트랜잭션** | 외부 API는 트랜잭션 밖 | 결제 확인 → DB 업데이트 분리 |
+| **배치 INSERT** | 다건 삽입은 배열로 | `db.insert(table).values([...])` |
+| **UPSERT** | 중복 체크+삽입 원자적 | `onConflictDoUpdate` |
+
+## 13. 에러 처리
 
 - DB 연결 실패 시 명확한 에러 메시지 (`DATABASE_URL` 미설정 등)
 - unique constraint 위반 시 사용자 친화적 메시지 변환
 - 마이그레이션 실패 시 롤백 가이드 제공
 
-## 13. 테스트 전략
+## 14. 테스트 전략
 
 | 대상 | 유형 | 주요 케이스 |
 |------|------|------------|
@@ -320,7 +388,7 @@ export * from './relations';
 - 테스트 전 마이그레이션 적용, 테스트 후 데이터 정리
 - 상세: [TESTING.md](./TESTING.md) §7 참고
 
-## 14. 보안 고려사항
+## 15. 보안 고려사항
 
 - **RLS 필수**: 모든 테이블에 Row Level Security 활성화
 - **service_role key**: 서버 전용, 클라이언트 노출 절대 금지
@@ -329,7 +397,7 @@ export * from './relations';
 - **audit_logs**: 보안 이벤트 기록용, 삭제 불가 정책 권장
 - **인덱스**: 개인정보 컬럼(email) 인덱스 존재 확인, 필요 시 partial index
 
-## 15. Supabase RLS (Row Level Security)
+## 16. Supabase RLS (Row Level Security)
 
 Supabase 사용 시 RLS 정책도 마이그레이션에 포함:
 
