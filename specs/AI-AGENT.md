@@ -2,7 +2,9 @@
 
 ## 1. 목적과 범위
 
-바이브코딩을 위한 AI 에이전트 룰셋과 프리셋을 제공한다. `.cursorrules`, `AGENTS.md` 생성, 서브에이전트 커맨드 프리셋을 포함한다.
+바이브코딩을 위한 AI 에이전트 룰셋과 프리셋을 제공한다. 특정 IDE/도구에 종속되지 않는 범용 `AGENTS.md` 파일을 생성하며, 서브에이전트 커맨드 프리셋을 포함한다.
+
+> **원칙:** Cursor, Copilot, Windsurf 등 특정 프로그램에 종속되지 않는다. 어떤 AI 코딩 도구에서든 활용 가능한 범용 AGENTS.md를 생성한다.
 
 ## 2. 패키지 구조
 
@@ -13,11 +15,9 @@ packages/ai-agent/
 │   ├── presets.ts              # 프리셋 정의
 │   ├── rules.ts                # 룰셋 정의
 │   ├── generators/
-│   │   ├── cursorrules.ts      # .cursorrules 생성기
 │   │   ├── agents-md.ts        # AGENTS.md 생성기
 │   │   └── subagent-commands.ts # 서브에이전트 커맨드 생성기
 │   └── templates/
-│       ├── cursorrules.hbs     # .cursorrules 템플릿
 │       ├── agents-md.hbs       # AGENTS.md 템플릿
 │       ├── feature-builder.hbs # 서브에이전트: 기능 구현
 │       ├── bug-fixer.hbs       # 서브에이전트: 버그 수정
@@ -28,32 +28,40 @@ packages/ai-agent/
 
 ## 3. 상세 요구사항
 
-### 3.1 .cursorrules 생성기
+### 3.1 AGENTS.md 생성기
 
-프로젝트 설정에 맞는 `.cursorrules` 파일을 자동 생성한다.
+프로젝트 설정에 맞는 범용 `AGENTS.md` 파일을 자동 생성한다. 이 파일은 어떤 AI 코딩 도구에서든 프로젝트 컨텍스트로 활용된다.
 
 ```typescript
-interface CursorRulesConfig {
+interface AgentsMdConfig {
   projectName: string;
+  description: string;
   techStack: string[];           // ['next15', 'supabase', 'drizzle', 'tailwind', 'shadcn']
+  packages: string[];
   language: 'ko' | 'en';        // 응답 언어
   codeStyle: {
     semicolons: boolean;         // 기본: true
     quotes: 'single' | 'double'; // 기본: 'single'
     indentSize: number;          // 기본: 2
   };
-  customRules?: string[];        // 추가 규칙
+  customInstructions?: string;   // 추가 지침
 }
 
-function generateCursorRules(config: CursorRulesConfig): string
+function generateAgentsMd(config: AgentsMdConfig): string
 ```
 
-#### 기본 룰셋 내용
+#### 기본 AGENTS.md 내용
 
-```
-# Project: {projectName}
+```markdown
+# AGENTS.md — {projectName}
 
-## Tech Stack
+> 이 파일은 AI 코딩 에이전트를 위한 프로젝트 가이드입니다.
+> Cursor, Copilot, Windsurf, Claude Code 등 어떤 도구에서든 활용할 수 있습니다.
+
+## 프로젝트 개요
+{description}
+
+## 기술 스택
 - Next.js 15 (App Router, Server Components, Server Actions)
 - TypeScript (strict mode)
 - Supabase (Auth + PostgreSQL)
@@ -61,7 +69,19 @@ function generateCursorRules(config: CursorRulesConfig): string
 - Tailwind CSS + shadcn/ui
 - 토스페이먼츠
 
-## Code Style
+## 프로젝트 구조
+```
+apps/web/          → 메인 Next.js 앱
+packages/core/     → 공통 Provider, 레이아웃, UI
+packages/db/       → Drizzle 스키마, 마이그레이션
+packages/auth/     → Supabase 인증
+packages/admin/    → 관리자 대시보드
+packages/payment/  → 토스페이먼츠 결제
+packages/ai-agent/ → 이 모듈 (AI 에이전트 프리셋)
+specs/             → 스펙 문서 (Spec Driven Development)
+```
+
+## 코드 컨벤션
 - 함수형 컴포넌트만 사용 (no class components)
 - Server Components 기본, 'use client' 최소화
 - Server Actions for mutations
@@ -71,53 +91,67 @@ function generateCursorRules(config: CursorRulesConfig): string
 - zod로 모든 입력 검증
 - 에러는 try-catch로 처리, 사용자 친화적 메시지
 
-## Project Structure
-- packages/core: 공통 Provider, 레이아웃, UI
-- packages/db: Drizzle 스키마
-- packages/auth: Supabase 인증
-- packages/admin: 관리자 대시보드
-- packages/payment: 토스페이먼츠 결제
-- apps/web: 메인 앱
+## 자주 사용하는 패턴
 
-## Rules
+### Server Action
+```typescript
+'use server';
+import { z } from 'zod';
+import { createSupabaseServerClient } from '@ohmynextjs/auth';
+
+const schema = z.object({ /* ... */ });
+
+export async function myAction(formData: FormData) {
+  const parsed = schema.safeParse(Object.fromEntries(formData));
+  if (!parsed.success) return { error: { code: 'VALIDATION', message: parsed.error.message } };
+  // ...
+  return { data: result };
+}
+```
+
+### DB 쿼리
+```typescript
+import { db } from '@ohmynextjs/db';
+import { users } from '@ohmynextjs/db/schema';
+import { eq } from 'drizzle-orm';
+
+const user = await db.select().from(users).where(eq(users.id, userId));
+```
+
+### 인증 체크
+```typescript
+import { createSupabaseServerClient } from '@ohmynextjs/auth';
+
+const supabase = await createSupabaseServerClient();
+const { data: { user } } = await supabase.auth.getUser();
+if (!user) redirect('/login');
+```
+
+## 규칙
 - 새 파일 생성 시 해당 패키지의 index.ts에 export 추가
 - DB 변경 시 반드시 마이그레이션 생성
-- API 응답은 { data } 또는 { error: { code, message } } 형식
+- API 응답은 `{ data }` 또는 `{ error: { code, message } }` 형식
 - 한국어 사용자 대상, UI 텍스트는 한국어
+- 스펙 문서(specs/)를 먼저 확인하고 구현
+
+## 커밋 컨벤션
+- feat: 새 기능
+- fix: 버그 수정
+- refactor: 리팩토링
+- docs: 문서
+- chore: 설정/빌드
 ```
 
-### 3.2 AGENTS.md 생성기
+### 3.2 서브에이전트 커맨드 프리셋
 
-```typescript
-interface AgentsMdConfig {
-  projectName: string;
-  description: string;
-  techStack: string[];
-  packages: string[];
-  customInstructions?: string;
-}
-
-function generateAgentsMd(config: AgentsMdConfig): string
-```
-
-#### 기본 AGENTS.md 내용
-
-프로젝트 구조, 컨벤션, 주요 패턴을 포함하는 포괄적인 개발 가이드:
-- 프로젝트 개요
-- 디렉토리 구조 설명
-- 코드 컨벤션
-- 자주 사용하는 패턴 (Server Actions, DB 쿼리, 인증 체크)
-- 테스트 가이드
-- 커밋 컨벤션
-
-### 3.3 서브에이전트 커맨드 프리셋
+서브에이전트는 AGENTS.md를 컨텍스트로 활용하며, 특정 작업에 특화된 지침을 제공한다.
 
 #### feature-builder
 ```
 목적: 새 기능을 구현하는 에이전트
 입력: 기능 설명, 관련 패키지
 동작:
-1. specs/ 디렉토리에서 관련 스펙 확인
+1. AGENTS.md와 specs/ 디렉토리에서 관련 스펙 확인
 2. 필요한 DB 스키마 변경
 3. 서버 액션 구현
 4. 컴포넌트 구현
@@ -130,11 +164,12 @@ function generateAgentsMd(config: AgentsMdConfig): string
 목적: 버그를 분석하고 수정하는 에이전트
 입력: 에러 메시지, 재현 경로
 동작:
-1. 에러 로그 분석
-2. 관련 코드 탐색
-3. 원인 파악
-4. 수정 코드 작성
-5. 사이드 이펙트 체크
+1. AGENTS.md에서 프로젝트 구조/패턴 파악
+2. 에러 로그 분석
+3. 관련 코드 탐색
+4. 원인 파악
+5. 수정 코드 작성
+6. 사이드 이펙트 체크
 ```
 
 #### code-reviewer
@@ -142,21 +177,21 @@ function generateAgentsMd(config: AgentsMdConfig): string
 목적: 코드 리뷰를 수행하는 에이전트
 입력: 변경된 파일 목록 또는 PR
 동작:
-1. 변경 사항 분석
-2. 코드 컨벤션 체크
-3. 보안 이슈 체크
-4. 성능 이슈 체크
-5. 개선 제안
+1. AGENTS.md에서 코드 컨벤션 확인
+2. 변경 사항 분석
+3. 컨벤션 준수 여부 체크
+4. 보안 이슈 체크
+5. 성능 이슈 체크
+6. 개선 제안
 ```
 
-### 3.4 CLI 스크립트
+### 3.3 CLI 스크립트
 
 ```json
 // package.json scripts
 {
-  "generate:cursorrules": "tsx src/generators/cursorrules.ts",
   "generate:agents-md": "tsx src/generators/agents-md.ts",
-  "generate:all": "tsx src/generators/cursorrules.ts && tsx src/generators/agents-md.ts"
+  "generate:all": "tsx src/generators/agents-md.ts"
 }
 ```
 
@@ -189,12 +224,11 @@ export default defineConfig({
 ## 5. Export
 
 ```typescript
-export { generateCursorRules } from './generators/cursorrules';
 export { generateAgentsMd } from './generators/agents-md';
 export { getSubagentPreset } from './generators/subagent-commands';
 export { defaultRules } from './rules';
 export { defaultPresets } from './presets';
-export type { CursorRulesConfig, AgentsMdConfig } from './types';
+export type { AgentsMdConfig } from './types';
 ```
 
 ## 6. 에러 처리
@@ -205,7 +239,6 @@ export type { CursorRulesConfig, AgentsMdConfig } from './types';
 ## 7. 구현 우선순위
 
 1. 기본 룰셋/프리셋 정의
-2. `.cursorrules` 생성기
-3. `AGENTS.md` 생성기
-4. 서브에이전트 프리셋
-5. CLI 스크립트
+2. `AGENTS.md` 생성기
+3. 서브에이전트 프리셋
+4. CLI 스크립트
