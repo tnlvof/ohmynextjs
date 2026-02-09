@@ -10,8 +10,8 @@ export default function HomePage() {
       <Header
         logo="OhMyNextJS"
         navItems={[
+          { label: '기능', href: '#features' },
           { label: '요금제', href: '/pricing' },
-          { label: '이용약관', href: '/terms' },
         ]}
       />
       <main className="flex-1">
@@ -23,6 +23,7 @@ export default function HomePage() {
       <Footer
         copyright="© 2026 OhMyNextJS. All rights reserved."
         links={[
+          { label: '요금제', href: '/pricing' },
           { label: '이용약관', href: '/terms' },
           { label: '개인정보처리방침', href: '/privacy' },
         ]}
