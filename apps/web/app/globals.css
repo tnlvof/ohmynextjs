@@ -1,6 +1,12 @@
 @import "tailwindcss";
 
-@custom-variant dark (&:is(.dark *));
+@source "../../../packages/core/src/**/*.tsx";
+@source "../../../packages/auth/src/**/*.tsx";
+@source "../../../packages/admin/src/**/*.tsx";
+@source "../../../packages/payment/src/**/*.tsx";
+@source "../components/**/*.tsx";
+
+@custom-variant dark (&:is(.dark, .dark *));
 
 @theme {
   --color-background: hsl(0 0% 100%);
