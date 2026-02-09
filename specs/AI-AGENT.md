@@ -1,36 +1,32 @@
-# AI-AGENT — AI 에이전트 모듈 상세 스펙
+# AI-AGENT ??AI ?�이?�트 모듈 ?�세 ?�펙
 
-## 1. 목적과 범위
+## 1. 목적�?범위
 
-바이브코딩을 위한 AI 에이전트 룰셋과 프리셋을 제공한다. 특정 IDE/도구에 종속되지 않는 범용 `AGENTS.md` 파일을 생성하며, 서브에이전트 커맨드 프리셋을 포함한다.
+바이브코?�을 ?�한 AI ?�이?�트 룰셋�??�리?�을 ?�공?�다. ?�정 IDE/?�구??종속?��? ?�는 범용 `AGENTS.md` ?�일???�성?�며, ?�브?�이?�트 커맨???�리?�을 ?�함?�다.
 
-> **원칙:** Cursor, Copilot, Windsurf 등 특정 프로그램에 종속되지 않는다. 어떤 AI 코딩 도구에서든 활용 가능한 범용 AGENTS.md를 생성한다.
+> **?�칙:** Cursor, Copilot, Windsurf ???�정 ?�로그램??종속?��? ?�는?? ?�떤 AI 코딩 ?�구?�서???�용 가?�한 범용 AGENTS.md�??�성?�다.
 
-## 2. 패키지 구조
+## 2. ?�키지 구조
 
 ```
 packages/ai-agent/
-├── src/
-│   ├── index.ts
-│   ├── presets.ts              # 프리셋 정의
-│   ├── rules.ts                # 룰셋 정의
-│   ├── generators/
-│   │   ├── agents-md.ts        # AGENTS.md 생성기
-│   │   └── subagent-commands.ts # 서브에이전트 커맨드 생성기
-│   └── templates/
-│       ├── agents-md.hbs       # AGENTS.md 템플릿
-│       ├── feature-builder.hbs # 서브에이전트: 기능 구현
-│       ├── bug-fixer.hbs       # 서브에이전트: 버그 수정
-│       └── code-reviewer.hbs   # 서브에이전트: 코드 리뷰
-├── package.json
-└── tsconfig.json
+?��??� src/
+??  ?��??� index.ts
+??  ?��??� presets.ts              # ?�리???�의
+??  ?��??� rules.ts                # 룰셋 ?�의
+??  ?��??� generators/
+??  ??  ?��??� agents-md.ts        # AGENTS.md ?�성�???  ??  ?��??� subagent-commands.ts # ?�브?�이?�트 커맨???�성�???  ?��??� templates/
+??      ?��??� agents-md.hbs       # AGENTS.md ?�플�???      ?��??� feature-builder.hbs # ?�브?�이?�트: 기능 구현
+??      ?��??� bug-fixer.hbs       # ?�브?�이?�트: 버그 ?�정
+??      ?��??� code-reviewer.hbs   # ?�브?�이?�트: 코드 리뷰
+?��??� package.json
+?��??� tsconfig.json
 ```
 
-## 3. 상세 요구사항
+## 3. ?�세 ?�구?�항
 
-### 3.1 AGENTS.md 생성기
-
-프로젝트 설정에 맞는 범용 `AGENTS.md` 파일을 자동 생성한다. 이 파일은 어떤 AI 코딩 도구에서든 프로젝트 컨텍스트로 활용된다.
+### 3.1 AGENTS.md ?�성�?
+?�로?�트 ?�정??맞는 범용 `AGENTS.md` ?�일???�동 ?�성?�다. ???�일?� ?�떤 AI 코딩 ?�구?�서???�로?�트 컨텍?�트�??�용?�다.
 
 ```typescript
 interface AgentsMdConfig {
@@ -38,60 +34,54 @@ interface AgentsMdConfig {
   description: string;
   techStack: string[];           // ['next15', 'supabase', 'drizzle', 'tailwind', 'shadcn']
   packages: string[];
-  language: 'ko' | 'en';        // 응답 언어
+  language: 'ko' | 'en';        // ?�답 ?�어
   codeStyle: {
     semicolons: boolean;         // 기본: true
     quotes: 'single' | 'double'; // 기본: 'single'
     indentSize: number;          // 기본: 2
   };
-  customInstructions?: string;   // 추가 지침
-}
+  customInstructions?: string;   // 추�? 지�?}
 
 function generateAgentsMd(config: AgentsMdConfig): string
 ```
 
-#### 기본 AGENTS.md 내용
+#### 기본 AGENTS.md ?�용
 
 ```markdown
-# AGENTS.md — {projectName}
+# AGENTS.md ??{projectName}
 
-> 이 파일은 AI 코딩 에이전트를 위한 프로젝트 가이드입니다.
-> Cursor, Copilot, Windsurf, Claude Code 등 어떤 도구에서든 활용할 수 있습니다.
+> ???�일?� AI 코딩 ?�이?�트�??�한 ?�로?�트 가?�드?�니??
+> Cursor, Copilot, Windsurf, Claude Code ???�떤 ?�구?�서???�용?????�습?�다.
 
-## 프로젝트 개요
+## ?�로?�트 개요
 {description}
 
-## 기술 스택
-- Next.js 15 (App Router, Server Components, Server Actions)
+## 기술 ?�택
+- Next.js 16 (App Router, Server Components, Server Actions)
 - TypeScript (strict mode)
 - Supabase (Auth + PostgreSQL)
 - Drizzle ORM
 - Tailwind CSS + shadcn/ui
-- 토스페이먼츠
+- ?�스?�이먼츠
 
-## 프로젝트 구조
+## ?�로?�트 구조
 ```
-apps/web/          → 메인 Next.js 앱
-packages/core/     → 공통 Provider, 레이아웃, UI
-packages/db/       → Drizzle 스키마, 마이그레이션
-packages/auth/     → Supabase 인증
-packages/admin/    → 관리자 대시보드
-packages/payment/  → 토스페이먼츠 결제
-packages/ai-agent/ → 이 모듈 (AI 에이전트 프리셋)
-specs/             → 스펙 문서 (Spec Driven Development)
+apps/web/          ??메인 Next.js ??packages/core/     ??공통 Provider, ?�이?�웃, UI
+packages/db/       ??Drizzle ?�키�? 마이그레?�션
+packages/auth/     ??Supabase ?�증
+packages/admin/    ??관리자 ?�?�보??packages/payment/  ???�스?�이먼츠 결제
+packages/ai-agent/ ????모듈 (AI ?�이?�트 ?�리??
+specs/             ???�펙 문서 (Spec Driven Development)
 ```
 
-## 코드 컨벤션
-- 함수형 컴포넌트만 사용 (no class components)
-- Server Components 기본, 'use client' 최소화
-- Server Actions for mutations
-- named export 선호
-- 파일명: kebab-case
-- 컴포넌트: PascalCase
-- zod로 모든 입력 검증
-- 에러는 try-catch로 처리, 사용자 친화적 메시지
+## 코드 컨벤??- ?�수??컴포?�트�??�용 (no class components)
+- Server Components 기본, 'use client' 최소??- Server Actions for mutations
+- named export ?�호
+- ?�일�? kebab-case
+- 컴포?�트: PascalCase
+- zod�?모든 ?�력 검�?- ?�러??try-catch�?처리, ?�용??친화??메시지
 
-## 자주 사용하는 패턴
+## ?�주 ?�용?�는 ?�턴
 
 ### Server Action
 ```typescript
@@ -118,7 +108,7 @@ import { eq } from 'drizzle-orm';
 const user = await db.select().from(users).where(eq(users.id, userId));
 ```
 
-### 인증 체크
+### ?�증 체크
 ```typescript
 import { createSupabaseServerClient } from '@ohmynextjs/auth';
 
@@ -128,64 +118,60 @@ if (!user) redirect('/login');
 ```
 
 ## 규칙
-- 새 파일 생성 시 해당 패키지의 index.ts에 export 추가
-- DB 변경 시 반드시 마이그레이션 생성
-- API 응답은 `{ data }` 또는 `{ error: { code, message } }` 형식
-- 한국어 사용자 대상, UI 텍스트는 한국어
-- 스펙 문서(specs/)를 먼저 확인하고 구현
+- ???�일 ?�성 ???�당 ?�키지??index.ts??export 추�?
+- DB 변�???반드??마이그레?�션 ?�성
+- API ?�답?� `{ data }` ?�는 `{ error: { code, message } }` ?�식
+- ?�국???�용???�?? UI ?�스?�는 ?�국??- ?�펙 문서(specs/)�?먼�? ?�인?�고 구현
 
-## 커밋 컨벤션
-- feat: 새 기능
-- fix: 버그 수정
-- refactor: 리팩토링
+## 커밋 컨벤??- feat: ??기능
+- fix: 버그 ?�정
+- refactor: 리팩?�링
 - docs: 문서
-- chore: 설정/빌드
+- chore: ?�정/빌드
 ```
 
-### 3.2 서브에이전트 커맨드 프리셋
-
-서브에이전트는 AGENTS.md를 컨텍스트로 활용하며, 특정 작업에 특화된 지침을 제공한다.
+### 3.2 ?�브?�이?�트 커맨???�리??
+?�브?�이?�트??AGENTS.md�?컨텍?�트�??�용?�며, ?�정 ?�업???�화??지침을 ?�공?�다.
 
 #### feature-builder
 ```
-목적: 새 기능을 구현하는 에이전트
-입력: 기능 설명, 관련 패키지
-동작:
-1. AGENTS.md와 specs/ 디렉토리에서 관련 스펙 확인
-2. 필요한 DB 스키마 변경
-3. 서버 액션 구현
-4. 컴포넌트 구현
-5. 라우트 추가
-6. 패키지 index.ts export 업데이트
+목적: ??기능??구현?�는 ?�이?�트
+?�력: 기능 ?�명, 관???�키지
+?�작:
+1. AGENTS.md?� specs/ ?�렉?�리?�서 관???�펙 ?�인
+2. ?�요??DB ?�키�?변�?3. ?�버 ?�션 구현
+4. 컴포?�트 구현
+5. ?�우??추�?
+6. ?�키지 index.ts export ?�데?�트
 ```
 
 #### bug-fixer
 ```
-목적: 버그를 분석하고 수정하는 에이전트
-입력: 에러 메시지, 재현 경로
-동작:
-1. AGENTS.md에서 프로젝트 구조/패턴 파악
-2. 에러 로그 분석
-3. 관련 코드 탐색
-4. 원인 파악
-5. 수정 코드 작성
-6. 사이드 이펙트 체크
+목적: 버그�?분석?�고 ?�정?�는 ?�이?�트
+?�력: ?�러 메시지, ?�현 경로
+?�작:
+1. AGENTS.md?�서 ?�로?�트 구조/?�턴 ?�악
+2. ?�러 로그 분석
+3. 관??코드 ?�색
+4. ?�인 ?�악
+5. ?�정 코드 ?�성
+6. ?�이???�펙??체크
 ```
 
 #### code-reviewer
 ```
-목적: 코드 리뷰를 수행하는 에이전트
-입력: 변경된 파일 목록 또는 PR
-동작:
-1. AGENTS.md에서 코드 컨벤션 확인
-2. 변경 사항 분석
-3. 컨벤션 준수 여부 체크
-4. 보안 이슈 체크
-5. 성능 이슈 체크
-6. 개선 제안
+목적: 코드 리뷰�??�행?�는 ?�이?�트
+?�력: 변경된 ?�일 목록 ?�는 PR
+?�작:
+1. AGENTS.md?�서 코드 컨벤???�인
+2. 변�??�항 분석
+3. 컨벤??준???��? 체크
+4. 보안 ?�슈 체크
+5. ?�능 ?�슈 체크
+6. 개선 ?�안
 ```
 
-### 3.3 CLI 스크립트
+### 3.3 CLI ?�크립트
 
 ```json
 // package.json scripts
@@ -195,21 +181,20 @@ if (!user) redirect('/login');
 }
 ```
 
-설정은 프로젝트 루트의 `ohmynextjs.config.ts`에서 읽거나 기본값 사용:
+?�정?� ?�로?�트 루트??`ohmynextjs.config.ts`?�서 ?�거??기본�??�용:
 
 ```typescript
-// ohmynextjs.config.ts (선택적)
+// ohmynextjs.config.ts (?�택??
 import { defineConfig } from '@ohmynextjs/ai-agent';
 
 export default defineConfig({
   projectName: 'MyProject',
   language: 'ko',
-  // ... 커스텀 설정
+  // ... 커스?� ?�정
 });
 ```
 
-## 4. 의존성
-
+## 4. ?�존??
 ```json
 {
   "dependencies": {},
@@ -219,7 +204,7 @@ export default defineConfig({
 }
 ```
 
-런타임 의존성 없음. 빌드 타임/CLI 도구만.
+?��????�존???�음. 빌드 ?�??CLI ?�구�?
 
 ## 5. Export
 
@@ -231,14 +216,12 @@ export { defaultPresets } from './presets';
 export type { AgentsMdConfig } from './types';
 ```
 
-## 6. 에러 처리
+## 6. ?�러 처리
 
-- 설정 파일 미존재 시: 기본값으로 생성 + 경고 메시지
-- 출력 경로에 기존 파일 존재 시: 백업 후 덮어쓰기 (`.bak` 파일)
+- ?�정 ?�일 미존???? 기본값으�??�성 + 경고 메시지
+- 출력 경로??기존 ?�일 존재 ?? 백업 ????��?�기 (`.bak` ?�일)
 
-## 7. 구현 우선순위
+## 7. 구현 ?�선?�위
 
-1. 기본 룰셋/프리셋 정의
-2. `AGENTS.md` 생성기
-3. 서브에이전트 프리셋
-4. CLI 스크립트
+1. 기본 룰셋/?�리???�의
+2. `AGENTS.md` ?�성�?3. ?�브?�이?�트 ?�리??4. CLI ?�크립트

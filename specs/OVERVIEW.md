@@ -1,108 +1,108 @@
-ï»¿# OVERVIEW â€” OhMyNextJS í”„ë¡œì íŠ¸ ì „ì²´ ìŠ¤íŽ™
+# OVERVIEW ? OhMyNextJS ÇÁ·ÎÁ§Æ® ÀüÃ¼ ½ºÆå
 
-## 1. í”„ë¡œì íŠ¸ ëª©ì 
+## 1. ÇÁ·ÎÁ§Æ® ¸ñÀû
 
-ë°”ì´ë¸Œì½”ë”©ìœ¼ë¡œ ìƒìš© ì„œë¹„ìŠ¤ë¥¼ ë¹ ë¥´ê²Œ êµ¬ì¶•í•˜ê¸° ìœ„í•œ **Next.js 15 í’€ìŠ¤íƒ ìŠ¤íƒ€í„°í‚·**.
-SaaS, ì»¤ë¨¸ìŠ¤, ì–´ë–¤ ì›¹ì„œë¹„ìŠ¤ë“  ì¦‰ì‹œ ì‹œìž‘í•  ìˆ˜ ìžˆëŠ” ëª¨ë“ˆí™”ëœ íŒ¨í‚¤ì§€ êµ¬ì¡°ë¥¼ ì œê³µí•œë‹¤.
+¹ÙÀÌºêÄÚµùÀ¸·Î »ó¿ë ¼­ºñ½º¸¦ ºü¸£°Ô ±¸ÃàÇÏ±â À§ÇÑ **Next.js 16 Ç®½ºÅÃ ½ºÅ¸ÅÍÅ¶**.
+SaaS, Ä¿¸Ó½º, ¾î¶² À¥¼­ºñ½ºµç Áï½Ã ½ÃÀÛÇÒ ¼ö ÀÖ´Â ¸ðµâÈ­µÈ ÆÐÅ°Áö ±¸Á¶¸¦ Á¦°øÇÑ´Ù.
 
-## 2. ê¸°ìˆ  ìŠ¤íƒ
+## 2. ±â¼ú ½ºÅÃ
 
-| ì˜ì—­ | ê¸°ìˆ  |
+| ¿µ¿ª | ±â¼ú |
 |------|------|
-| í”„ë ˆìž„ì›Œí¬ | Next.js 15 (App Router) |
-| ì–¸ì–´ | TypeScript (strict) |
+| ÇÁ·¹ÀÓ¿öÅ© | Next.js 16 (App Router) |
+| ¾ð¾î | TypeScript (strict) |
 | DB | Supabase (PostgreSQL) |
 | ORM | Drizzle ORM |
-| ì¸ì¦ | Supabase Auth |
+| ÀÎÁõ | Supabase Auth |
 | UI | Tailwind CSS v4 + shadcn/ui |
-| ê²°ì œ | í† ìŠ¤íŽ˜ì´ë¨¼ì¸  |
-| ëª¨ë…¸ë ˆí¬ | pnpm workspace (or turborepo) |
-| ë°°í¬ | Vercel |
+| °áÁ¦ | Åä½ºÆäÀÌ¸ÕÃ÷ |
+| ¸ð³ë·¹Æ÷ | pnpm workspace (or turborepo) |
+| ¹èÆ÷ | Vercel |
 
-## 3. ë””ë ‰í† ë¦¬ êµ¬ì¡°
+## 3. µð·ºÅä¸® ±¸Á¶
 
 ```
 ohmynextjs/
-â”œâ”€â”€ apps/
-â”‚   â””â”€â”€ web/                    # ë©”ì¸ Next.js ì•±
-â”‚       â”œâ”€â”€ app/                # App Router
-â”‚       â”‚   â”œâ”€â”€ (public)/       # ê³µê°œ íŽ˜ì´ì§€
-â”‚       â”‚   â”œâ”€â”€ (auth)/         # ì¸ì¦ ê´€ë ¨ íŽ˜ì´ì§€
-â”‚       â”‚   â”œâ”€â”€ (dashboard)/    # ë¡œê·¸ì¸ í›„ íŽ˜ì´ì§€
-â”‚       â”‚   â”œâ”€â”€ (admin)/        # ê´€ë¦¬ìž íŽ˜ì´ì§€
-â”‚       â”‚   â””â”€â”€ api/            # API Route Handlers
-â”‚       â”œâ”€â”€ components/         # ì•± ì „ìš© ì»´í¬ë„ŒíŠ¸
-â”‚       â””â”€â”€ lib/                # ì•± ì „ìš© ìœ í‹¸
-â”œâ”€â”€ packages/
-â”‚   â”œâ”€â”€ core/                   # Provider, ë ˆì´ì•„ì›ƒ, ì„¤ì •
-â”‚   â”œâ”€â”€ db/                     # Drizzle ìŠ¤í‚¤ë§ˆ, ë§ˆì´ê·¸ë ˆì´ì…˜
-â”‚   â”œâ”€â”€ auth/                   # Supabase ì¸ì¦
-â”‚   â”œâ”€â”€ admin/                  # ê´€ë¦¬ìž ëŒ€ì‹œë³´ë“œ
-â”‚   â”œâ”€â”€ payment/                # í† ìŠ¤íŽ˜ì´ë¨¼ì¸  ê²°ì œ
-â”‚   â””â”€â”€ ai-agent/               # AI ì—ì´ì „íŠ¸ ë£°ì…‹
-â”œâ”€â”€ specs/                      # ì´ ìŠ¤íŽ™ íŒŒì¼ë“¤
-â”œâ”€â”€ package.json                # ë£¨íŠ¸ workspace ì„¤ì •
-â””â”€â”€ turbo.json                  # Turborepo ì„¤ì • (ì„ íƒ)
+¦§¦¡¦¡ apps/
+¦¢   ¦¦¦¡¦¡ web/                    # ¸ÞÀÎ Next.js ¾Û
+¦¢       ¦§¦¡¦¡ app/                # App Router
+¦¢       ¦¢   ¦§¦¡¦¡ (public)/       # °ø°³ ÆäÀÌÁö
+¦¢       ¦¢   ¦§¦¡¦¡ (auth)/         # ÀÎÁõ °ü·Ã ÆäÀÌÁö
+¦¢       ¦¢   ¦§¦¡¦¡ (dashboard)/    # ·Î±×ÀÎ ÈÄ ÆäÀÌÁö
+¦¢       ¦¢   ¦§¦¡¦¡ (admin)/        # °ü¸®ÀÚ ÆäÀÌÁö
+¦¢       ¦¢   ¦¦¦¡¦¡ api/            # API Route Handlers
+¦¢       ¦§¦¡¦¡ components/         # ¾Û Àü¿ë ÄÄÆ÷³ÍÆ®
+¦¢       ¦¦¦¡¦¡ lib/                # ¾Û Àü¿ë À¯Æ¿
+¦§¦¡¦¡ packages/
+¦¢   ¦§¦¡¦¡ core/                   # Provider, ·¹ÀÌ¾Æ¿ô, ¼³Á¤
+¦¢   ¦§¦¡¦¡ db/                     # Drizzle ½ºÅ°¸¶, ¸¶ÀÌ±×·¹ÀÌ¼Ç
+¦¢   ¦§¦¡¦¡ auth/                   # Supabase ÀÎÁõ
+¦¢   ¦§¦¡¦¡ admin/                  # °ü¸®ÀÚ ´ë½Ãº¸µå
+¦¢   ¦§¦¡¦¡ payment/                # Åä½ºÆäÀÌ¸ÕÃ÷ °áÁ¦
+¦¢   ¦¦¦¡¦¡ ai-agent/               # AI ¿¡ÀÌÀüÆ® ·ê¼Â
+¦§¦¡¦¡ specs/                      # ÀÌ ½ºÆå ÆÄÀÏµé
+¦§¦¡¦¡ package.json                # ·çÆ® workspace ¼³Á¤
+¦¦¦¡¦¡ turbo.json                  # Turborepo ¼³Á¤ (¼±ÅÃ)
 ```
 
-## 4. ëª¨ë“ˆ ì˜ì¡´ì„± ê·¸ëž˜í”„
+## 4. ¸ðµâ ÀÇÁ¸¼º ±×·¡ÇÁ
 
 ```
-ai-agent (ë…ë¦½)
+ai-agent (µ¶¸³)
 
-core â† db
-  â†‘
-auth â† db, core
-  â†‘
-admin â† db, core, auth
-  â†‘
-payment â† db, core, auth
+core ¡ç db
+  ¡è
+auth ¡ç db, core
+  ¡è
+admin ¡ç db, core, auth
+  ¡è
+payment ¡ç db, core, auth
 
-apps/web â† core, db, auth, admin, payment, ai-agent
+apps/web ¡ç core, db, auth, admin, payment, ai-agent
 ```
 
-### ì˜ì¡´ì„± ê·œì¹™
-- `db`ëŠ” ë‹¤ë¥¸ íŒ¨í‚¤ì§€ì— ì˜ì¡´í•˜ì§€ ì•ŠìŒ (ìµœí•˜ìœ„)
-- `core`ëŠ” `db`ë§Œ ì˜ì¡´
-- `auth`ëŠ” `db`, `core` ì˜ì¡´
-- `admin`ê³¼ `payment`ëŠ” `db`, `core`, `auth` ì˜ì¡´
-- `ai-agent`ëŠ” ë…ë¦½ (ëŸ°íƒ€ìž„ ì˜ì¡´ì„± ì—†ìŒ, ë¹Œë“œ íƒ€ìž„ í”„ë¦¬ì…‹ë§Œ)
-- `apps/web`ì´ ëª¨ë“  íŒ¨í‚¤ì§€ë¥¼ í†µí•©
+### ÀÇÁ¸¼º ±ÔÄ¢
+- `db`´Â ´Ù¸¥ ÆÐÅ°Áö¿¡ ÀÇÁ¸ÇÏÁö ¾ÊÀ½ (ÃÖÇÏÀ§)
+- `core`´Â `db`¸¸ ÀÇÁ¸
+- `auth`´Â `db`, `core` ÀÇÁ¸
+- `admin`°ú `payment`´Â `db`, `core`, `auth` ÀÇÁ¸
+- `ai-agent`´Â µ¶¸³ (·±Å¸ÀÓ ÀÇÁ¸¼º ¾øÀ½, ºôµå Å¸ÀÓ ÇÁ¸®¼Â¸¸)
+- `apps/web`ÀÌ ¸ðµç ÆÐÅ°Áö¸¦ ÅëÇÕ
 
-## 5. êµ¬í˜„ ìˆœì„œ
+## 5. ±¸Çö ¼ø¼­
 
-| ìˆœì„œ | ëª¨ë“ˆ | ì´ìœ  |
+| ¼ø¼­ | ¸ðµâ | ÀÌÀ¯ |
 |------|------|------|
-| 1 | `db` | ëª¨ë“  ëª¨ë“ˆì˜ ê¸°ë°˜, ìŠ¤í‚¤ë§ˆ ë¨¼ì € |
-| 2 | `core` | Provider, ë ˆì´ì•„ì›ƒ ë“± ê³µí†µ ì¸í”„ë¼ |
-| 3 | `auth` | ì¸ì¦ ì—†ì´ ë‹¤ë¥¸ ê¸°ëŠ¥ ë¶ˆê°€ |
-| 4 | `apps/web` (ê¸°ë³¸) | ë¼ìš°íŒ…, íŽ˜ì´ì§€ ê³¨ê²© |
-| 5 | `admin` | ê´€ë¦¬ ê¸°ëŠ¥ |
-| 6 | `payment` | ê²°ì œ ê¸°ëŠ¥ |
-| 7 | `ai-agent` | ê°œë°œ ë³´ì¡° ë„êµ¬ |
-| 8 | ë°°í¬ | Vercel ì„¤ì • |
+| 1 | `db` | ¸ðµç ¸ðµâÀÇ ±â¹Ý, ½ºÅ°¸¶ ¸ÕÀú |
+| 2 | `core` | Provider, ·¹ÀÌ¾Æ¿ô µî °øÅë ÀÎÇÁ¶ó |
+| 3 | `auth` | ÀÎÁõ ¾øÀÌ ´Ù¸¥ ±â´É ºÒ°¡ |
+| 4 | `apps/web` (±âº») | ¶ó¿ìÆÃ, ÆäÀÌÁö °ñ°Ý |
+| 5 | `admin` | °ü¸® ±â´É |
+| 6 | `payment` | °áÁ¦ ±â´É |
+| 7 | `ai-agent` | °³¹ß º¸Á¶ µµ±¸ |
+| 8 | ¹èÆ÷ | Vercel ¼³Á¤ |
 
-## 6. ê³µí†µ ê·œì¹™
+## 6. °øÅë ±ÔÄ¢
 
-### ì½”ë“œ ì»¨ë²¤ì…˜
-- **íŒŒì¼ëª…**: kebab-case (`user-table.tsx`)
-- **ì»´í¬ë„ŒíŠ¸**: PascalCase (`UserTable`)
-- **í•¨ìˆ˜/ë³€ìˆ˜**: camelCase
-- **ìƒìˆ˜**: UPPER_SNAKE_CASE
-- **íƒ€ìž…**: PascalCase, `I` prefix ì•ˆ ì”€
+### ÄÚµå ÄÁº¥¼Ç
+- **ÆÄÀÏ¸í**: kebab-case (`user-table.tsx`)
+- **ÄÄÆ÷³ÍÆ®**: PascalCase (`UserTable`)
+- **ÇÔ¼ö/º¯¼ö**: camelCase
+- **»ó¼ö**: UPPER_SNAKE_CASE
+- **Å¸ÀÔ**: PascalCase, `I` prefix ¾È ¾¸
 
-### Export ê·œì¹™
-- ê° íŒ¨í‚¤ì§€ëŠ” `src/index.ts`ì—ì„œ public APIë§Œ re-export
-- ë‚´ë¶€ ëª¨ë“ˆ ì§ì ‘ import ê¸ˆì§€
+### Export ±ÔÄ¢
+- °¢ ÆÐÅ°Áö´Â `src/index.ts`¿¡¼­ public API¸¸ re-export
+- ³»ºÎ ¸ðµâ Á÷Á¢ import ±ÝÁö
 
-### ì—ëŸ¬ ì²˜ë¦¬
-- ëª¨ë“  APIëŠ” í†µì¼ëœ ì—ëŸ¬ ì‘ë‹µ í˜•ì‹ ì‚¬ìš©:
+### ¿¡·¯ Ã³¸®
+- ¸ðµç API´Â ÅëÀÏµÈ ¿¡·¯ ÀÀ´ä Çü½Ä »ç¿ë:
 ```typescript
 interface ApiError {
   error: {
-    code: string;       // 'AUTH_INVALID_TOKEN', 'PAYMENT_FAILED' ë“±
-    message: string;    // ì‚¬ëžŒì´ ì½ì„ ìˆ˜ ìžˆëŠ” ë©”ì‹œì§€
-    details?: unknown;  // ì¶”ê°€ ì •ë³´ (ê°œë°œ ëª¨ë“œ)
+    code: string;       // 'AUTH_INVALID_TOKEN', 'PAYMENT_FAILED' µî
+    message: string;    // »ç¶÷ÀÌ ÀÐÀ» ¼ö ÀÖ´Â ¸Þ½ÃÁö
+    details?: unknown;  // Ãß°¡ Á¤º¸ (°³¹ß ¸ðµå)
   }
 }
 
@@ -111,47 +111,47 @@ interface ApiSuccess<T> {
 }
 ```
 
-## 7. ê°œë°œ ì›ì¹™
+## 7. °³¹ß ¿øÄ¢
 
-ëª¨ë“  ì½”ë“œëŠ” ì•„ëž˜ 4ê°€ì§€ ì›ì¹™ì„ ì¤€ìˆ˜í•œë‹¤. ê° ì›ì¹™ì˜ ìƒì„¸ ë‚´ìš©ì€ ë³„ë„ ìŠ¤íŽ™ ì°¸ì¡°.
+¸ðµç ÄÚµå´Â ¾Æ·¡ 4°¡Áö ¿øÄ¢À» ÁØ¼öÇÑ´Ù. °¢ ¿øÄ¢ÀÇ »ó¼¼ ³»¿ëÀº º°µµ ½ºÆå ÂüÁ¶.
 
-### 7.1 React Best Practices (â†’ [REACT-BEST-PRACTICES.md](./REACT-BEST-PRACTICES.md))
-Vercel Engineeringì˜ 40+ ë£°, 8ê°œ ì¹´í…Œê³ ë¦¬ë¥¼ ë”°ë¥¸ë‹¤:
-- **CRITICAL**: Waterfall ì œê±°, ë²ˆë“¤ ì‚¬ì´ì¦ˆ ìµœì í™”
-- **HIGH**: ì„œë²„ ì‚¬ì´ë“œ ì„±ëŠ¥ (Server Action ì¸ì¦, RSC ìµœì†Œ ì§ë ¬í™”, React.cache)
-- **MEDIUM+**: í´ë¼ì´ì–¸íŠ¸ ë°ì´í„° íŽ˜ì¹­ (SWR), ë¦¬ë Œë” ìµœì í™”, ë Œë”ë§ ì„±ëŠ¥
-- **LOW+**: JS ì„±ëŠ¥ ìµœì í™”, ê³ ê¸‰ íŒ¨í„´
+### 7.1 React Best Practices (¡æ [REACT-BEST-PRACTICES.md](./REACT-BEST-PRACTICES.md))
+Vercel EngineeringÀÇ 40+ ·ê, 8°³ Ä«Å×°í¸®¸¦ µû¸¥´Ù:
+- **CRITICAL**: Waterfall Á¦°Å, ¹øµé »çÀÌÁî ÃÖÀûÈ­
+- **HIGH**: ¼­¹ö »çÀÌµå ¼º´É (Server Action ÀÎÁõ, RSC ÃÖ¼Ò Á÷·ÄÈ­, React.cache)
+- **MEDIUM+**: Å¬¶óÀÌ¾ðÆ® µ¥ÀÌÅÍ ÆäÄª (SWR), ¸®·»´õ ÃÖÀûÈ­, ·»´õ¸µ ¼º´É
+- **LOW+**: JS ¼º´É ÃÖÀûÈ­, °í±Þ ÆÐÅÏ
 
-### 7.2 Clean Code (â†’ [CLEAN-CODE.md](./CLEAN-CODE.md))
-- **SOLID** ì›ì¹™ (ë‹¨ì¼ ì±…ìž„, ê°œë°©/íì‡„, ë¦¬ìŠ¤ì½”í”„ ì¹˜í™˜, ì¸í„°íŽ˜ì´ìŠ¤ ë¶„ë¦¬, ì˜ì¡´ì„± ì—­ì „)
-- **DRY, KISS, YAGNI** â€” ì¤‘ë³µ ì œê±°, ë‹¨ìˆœí•˜ê²Œ, í•„ìš”í•œ ê²ƒë§Œ
-- ì˜ë¯¸ ìžˆëŠ” ë„¤ì´ë°, í•¨ìˆ˜ëŠ” í•œ ê°€ì§€ë§Œ, ì£¼ì„ ëŒ€ì‹  ìžëª…í•œ ì½”ë“œ
-- Early returnìœ¼ë¡œ ê¹Šì€ ì¤‘ì²© íšŒí”¼, ë§¤ì§ ë„˜ë²„ ê¸ˆì§€
+### 7.2 Clean Code (¡æ [CLEAN-CODE.md](./CLEAN-CODE.md))
+- **SOLID** ¿øÄ¢ (´ÜÀÏ Ã¥ÀÓ, °³¹æ/Æó¼â, ¸®½ºÄÚÇÁ Ä¡È¯, ÀÎÅÍÆäÀÌ½º ºÐ¸®, ÀÇÁ¸¼º ¿ªÀü)
+- **DRY, KISS, YAGNI** ? Áßº¹ Á¦°Å, ´Ü¼øÇÏ°Ô, ÇÊ¿äÇÑ °Í¸¸
+- ÀÇ¹Ì ÀÖ´Â ³×ÀÌ¹Ö, ÇÔ¼ö´Â ÇÑ °¡Áö¸¸, ÁÖ¼® ´ë½Å ÀÚ¸íÇÑ ÄÚµå
+- Early returnÀ¸·Î ±íÀº ÁßÃ¸ È¸ÇÇ, ¸ÅÁ÷ ³Ñ¹ö ±ÝÁö
 
-### 7.3 ë³´ì•ˆ â€” OWASP Top 10 (â†’ [SECURITY.md](./SECURITY.md))
-- A01~A10 ëª¨ë“  í•­ëª©ì— ëŒ€í•œ êµ¬ì²´ì  ì˜ˆë°© ì½”ë“œ
-- ëª¨ë“  Server Actionì— ì¸ì¦/ì¸ê°€, zod ìž…ë ¥ ê²€ì¦, Drizzle parameterized query
-- ë³´ì•ˆ í—¤ë”, rate limiting, audit_logs, ì›¹í›… ì„œëª… ê²€ì¦
+### 7.3 º¸¾È ? OWASP Top 10 (¡æ [SECURITY.md](./SECURITY.md))
+- A01~A10 ¸ðµç Ç×¸ñ¿¡ ´ëÇÑ ±¸Ã¼Àû ¿¹¹æ ÄÚµå
+- ¸ðµç Server Action¿¡ ÀÎÁõ/ÀÎ°¡, zod ÀÔ·Â °ËÁõ, Drizzle parameterized query
+- º¸¾È Çì´õ, rate limiting, audit_logs, À¥ÈÅ ¼­¸í °ËÁõ
 
-### 7.4 ë°”ì´ë¸Œì½”ë”© ì›ì¹™ (â†’ [VIBE-CODING-PRINCIPLES.md](./VIBE-CODING-PRINCIPLES.md))
-- **10ê°€ì§€ ì›ì¹™**: YAGNI, Unix ì² í•™, Design by Contract, ê´€ì‹¬ì‚¬ì˜ ë¶„ë¦¬, ì ì§„ì  ê°œì„ , ë°©ì–´ì  í”„ë¡œê·¸ëž˜ë°, ë°”ì´ë¸Œ TDD, Convention over Configuration, ìµœì†Œ ë†€ëžŒì˜ ì›ì¹™, í”¼ë“œë°± ë£¨í”„
-- ì´ ì›ì¹™ë“¤ì€ ëª¨ë“  ê°œë°œ ê³¼ì •ì— ì ìš©ë˜ëŠ” **í•µì‹¬ ì² í•™**
-- ohmynextjsì˜ ì°¨ë³„ì ì´ìž ë¸Œëžœë“œ ì•„ì´ë´í‹°í‹°
+### 7.4 ¹ÙÀÌºêÄÚµù ¿øÄ¢ (¡æ [VIBE-CODING-PRINCIPLES.md](./VIBE-CODING-PRINCIPLES.md))
+- **10°¡Áö ¿øÄ¢**: YAGNI, Unix Ã¶ÇÐ, Design by Contract, °ü½É»çÀÇ ºÐ¸®, Á¡ÁøÀû °³¼±, ¹æ¾îÀû ÇÁ·Î±×·¡¹Ö, ¹ÙÀÌºê TDD, Convention over Configuration, ÃÖ¼Ò ³î¶÷ÀÇ ¿øÄ¢, ÇÇµå¹é ·çÇÁ
+- ÀÌ ¿øÄ¢µéÀº ¸ðµç °³¹ß °úÁ¤¿¡ Àû¿ëµÇ´Â **ÇÙ½É Ã¶ÇÐ**
+- ohmynextjsÀÇ Â÷º°Á¡ÀÌÀÚ ºê·£µå ¾ÆÀÌµ§Æ¼Æ¼
 
-### 7.5 Postgres Best Practices (â†’ [POSTGRES-BEST-PRACTICES.md](./POSTGRES-BEST-PRACTICES.md))
-- Supabaseì˜ 30ê°œ ë ˆí¼ëŸ°ìŠ¤, 8ê°œ ì¹´í…Œê³ ë¦¬
+### 7.5 Postgres Best Practices (¡æ [POSTGRES-BEST-PRACTICES.md](./POSTGRES-BEST-PRACTICES.md))
+- SupabaseÀÇ 30°³ ·¹ÆÛ·±½º, 8°³ Ä«Å×°í¸®
 - **CRITICAL**: Query Performance, Connection Management, Security & RLS
 - **HIGH**: Schema Design
 - **MEDIUM+**: Concurrency & Locking, Data Access Patterns
 - **LOW+**: Monitoring & Diagnostics, Advanced Features
 
-### 7.6 TDD (â†’ [TESTING.md](./TESTING.md))
-- **Vitest** (ë‹¨ìœ„/í†µí•©) + **Playwright** (E2E)
-- Red â†’ Green â†’ Refactor ì‚¬ì´í´
-- í…ŒìŠ¤íŠ¸ ì»¤ë²„ë¦¬ì§€ ëª©í‘œ: **80%+**
-- ëª¨ë“  Server Action, API Route, ë¹„ì¦ˆë‹ˆìŠ¤ ë¡œì§ì— í…ŒìŠ¤íŠ¸ í•„ìˆ˜
+### 7.6 TDD (¡æ [TESTING.md](./TESTING.md))
+- **Vitest** (´ÜÀ§/ÅëÇÕ) + **Playwright** (E2E)
+- Red ¡æ Green ¡æ Refactor »çÀÌÅ¬
+- Å×½ºÆ® Ä¿¹ö¸®Áö ¸ñÇ¥: **80%+**
+- ¸ðµç Server Action, API Route, ºñÁî´Ï½º ·ÎÁ÷¿¡ Å×½ºÆ® ÇÊ¼ö
 
-### í™˜ê²½ ë³€ìˆ˜
-- ëª¨ë“  í™˜ê²½ ë³€ìˆ˜ëŠ” `NEXT_PUBLIC_` prefixë¡œ í´ë¼ì´ì–¸íŠ¸ ë…¸ì¶œ ì—¬ë¶€ êµ¬ë¶„
-- ì„œë²„ ì „ìš©: `SUPABASE_SERVICE_ROLE_KEY`, `TOSS_SECRET_KEY`
-- í´ë¼ì´ì–¸íŠ¸: `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`
+### È¯°æ º¯¼ö
+- ¸ðµç È¯°æ º¯¼ö´Â `NEXT_PUBLIC_` prefix·Î Å¬¶óÀÌ¾ðÆ® ³ëÃâ ¿©ºÎ ±¸ºÐ
+- ¼­¹ö Àü¿ë: `SUPABASE_SERVICE_ROLE_KEY`, `TOSS_SECRET_KEY`
+- Å¬¶óÀÌ¾ðÆ®: `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`

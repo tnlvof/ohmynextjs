@@ -9,7 +9,7 @@
   },
   "license": "MIT",
   "peerDependencies": {
-    "next": "^15",
+    "next": "^16",
     "react": "^19",
     "@ohmynextjs/core": "*",
     "@ohmynextjs/db": "*",
