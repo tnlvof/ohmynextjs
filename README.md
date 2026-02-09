@@ -4,9 +4,11 @@
 
 [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/tnlvof/ohmynextjs&env=NEXT_PUBLIC_SUPABASE_URL,NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY,SUPABASE_SERVICE_ROLE_KEY,DATABASE_URL,NEXT_PUBLIC_TOSS_CLIENT_KEY,TOSS_SECRET_KEY,NEXT_PUBLIC_APP_URL&project-name=my-ohmynextjs&repository-name=my-ohmynextjs)
 
+🌐 **라이브 데모**: [ohmynextjs.vercel.app](https://ohmynextjs.vercel.app)
+
 ## Features
 
-- ⚡ **Next.js 15** (App Router, Server Components, Server Actions)
+- ⚡ **Next.js 16** (App Router, Turbopack, Server Components, Server Actions)
 - 🗄️ **Supabase** (Auth + PostgreSQL)
 - 🔄 **Drizzle ORM** (Type-safe DB)
 - 🔐 **인증** — 이메일 + 소셜 로그인 (Google, Kakao, Naver, GitHub)
@@ -488,7 +490,7 @@ bun run build
 
 | 영역 | 기술 |
 |------|------|
-| 프레임워크 | Next.js 15 (App Router) |
+| 프레임워크 | Next.js 16 (App Router, Turbopack) |
 | 언어 | TypeScript (strict) |
 | DB | Supabase (PostgreSQL) |
 | ORM | Drizzle ORM |
