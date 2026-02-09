@@ -8,11 +8,12 @@ export default function PublicLayout({ children }: { children: React.ReactNode }
         navItems={[
           { label: '요금제', href: '/pricing' },
           { label: '이용약관', href: '/terms' },
+          { label: '개인정보처리방침', href: '/privacy' },
         ]}
       />
       <main className="flex-1">{children}</main>
       <Footer
-        copyright="© 2024 OhMyNextJS. All rights reserved."
+        copyright="© 2026 OhMyNextJS. All rights reserved."
         links={[
           { label: '이용약관', href: '/terms' },
           { label: '개인정보처리방침', href: '/privacy' },

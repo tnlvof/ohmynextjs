@@ -44,9 +44,9 @@ export default function BillingPage() {
             </thead>
             <tbody>
               {[
-                { date: '2024-02-01', desc: 'Pro 플랜 - 월간', amount: '₩29,000', status: '완료' },
-                { date: '2024-01-01', desc: 'Pro 플랜 - 월간', amount: '₩29,000', status: '완료' },
-                { date: '2023-12-01', desc: 'Pro 플랜 - 월간', amount: '₩29,000', status: '완료' },
+                { date: '2026-02-01', desc: 'Pro 플랜 - 월간', amount: '₩29,000', status: '완료' },
+                { date: '2026-01-01', desc: 'Pro 플랜 - 월간', amount: '₩29,000', status: '완료' },
+                { date: '2025-12-01', desc: 'Pro 플랜 - 월간', amount: '₩29,000', status: '완료' },
               ].map((row, i) => (
                 <tr key={i} className="border-b last:border-0">
                   <td className="py-3">{row.date}</td>
