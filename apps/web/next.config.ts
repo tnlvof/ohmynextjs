@@ -8,6 +8,9 @@ const nextConfig: NextConfig = {
     '@ohmynextjs/payment',
     '@ohmynextjs/admin',
   ],
+  experimental: {
+    optimizePackageImports: ['lucide-react', 'recharts'],
+  },
 };
 
 export default nextConfig;
