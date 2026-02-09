@@ -1,4 +1,4 @@
-# DEPLOY — 배포 스펙
+﻿# DEPLOY — 배포 스펙
 
 ## 1. 목적과 범위
 
@@ -40,7 +40,7 @@ Vercel 원클릭 배포를 지원하고, 모든 환경 변수 설정 가이드�
 README.md에 Vercel 원클릭 배포 버튼 추가:
 
 ```markdown
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/tnlvof/ohmynextjs&env=NEXT_PUBLIC_SUPABASE_URL,NEXT_PUBLIC_SUPABASE_ANON_KEY,SUPABASE_SERVICE_ROLE_KEY,DATABASE_URL,NEXT_PUBLIC_TOSS_CLIENT_KEY,TOSS_SECRET_KEY,NEXT_PUBLIC_APP_URL&project-name=my-ohmynextjs&repository-name=my-ohmynextjs)
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/tnlvof/ohmynextjs&env=NEXT_PUBLIC_SUPABASE_URL,NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY,SUPABASE_SERVICE_ROLE_KEY,DATABASE_URL,NEXT_PUBLIC_TOSS_CLIENT_KEY,TOSS_SECRET_KEY,NEXT_PUBLIC_APP_URL&project-name=my-ohmynextjs&repository-name=my-ohmynextjs)
 ```
 
 ## 3. 환경 변수 전체 목록
@@ -50,7 +50,7 @@ README.md에 Vercel 원클릭 배포 버튼 추가:
 | 변수 | 설명 | 예시 | 서버/클라이언트 |
 |------|------|------|---------------|
 | `NEXT_PUBLIC_SUPABASE_URL` | Supabase 프로젝트 URL | `https://xxx.supabase.co` | 클라이언트 |
-| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Supabase anon key | `eyJ...` | 클라이언트 |
+| `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` | Supabase anon key | `eyJ...` | 클라이언트 |
 | `SUPABASE_SERVICE_ROLE_KEY` | Supabase service role key | `eyJ...` | 서버 |
 | `DATABASE_URL` | PostgreSQL 연결 문자열 | `postgresql://...` | 서버 |
 | `NEXT_PUBLIC_APP_URL` | 앱 URL | `https://myapp.vercel.app` | 클라이언트 |
@@ -148,7 +148,7 @@ export async function GET(request: Request) {
 ```env
 # Supabase
 NEXT_PUBLIC_SUPABASE_URL=https://your-project.supabase.co
-NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-key
+NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=your-anon-key
 SUPABASE_SERVICE_ROLE_KEY=your-service-role-key
 DATABASE_URL=postgresql://postgres:password@db.xxx.supabase.co:5432/postgres
 

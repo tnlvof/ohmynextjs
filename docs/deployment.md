@@ -1,10 +1,10 @@
-# 배포 가이드
+﻿# 배포 가이드
 
 ## Vercel 원클릭 배포
 
 ### 1. Deploy 버튼 클릭
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/tnlvof/ohmynextjs&env=NEXT_PUBLIC_SUPABASE_URL,NEXT_PUBLIC_SUPABASE_ANON_KEY,SUPABASE_SERVICE_ROLE_KEY,DATABASE_URL,NEXT_PUBLIC_TOSS_CLIENT_KEY,TOSS_SECRET_KEY,NEXT_PUBLIC_APP_URL&project-name=my-ohmynextjs&repository-name=my-ohmynextjs)
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/tnlvof/ohmynextjs&env=NEXT_PUBLIC_SUPABASE_URL,NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY,SUPABASE_SERVICE_ROLE_KEY,DATABASE_URL,NEXT_PUBLIC_TOSS_CLIENT_KEY,TOSS_SECRET_KEY,NEXT_PUBLIC_APP_URL&project-name=my-ohmynextjs&repository-name=my-ohmynextjs)
 
 ### 2. 환경변수 입력
 
@@ -13,7 +13,7 @@
 | 환경변수 | 필수 | 설명 |
 |---------|------|------|
 | `NEXT_PUBLIC_SUPABASE_URL` | ✅ | Supabase 프로젝트 URL |
-| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | ✅ | Supabase 공개 키 |
+| `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` | ✅ | Supabase 공개 키 |
 | `SUPABASE_SERVICE_ROLE_KEY` | ✅ | Supabase 서비스 역할 키 |
 | `DATABASE_URL` | ✅ | PostgreSQL 연결 문자열 |
 | `NEXT_PUBLIC_TOSS_CLIENT_KEY` | ✅ | 토스 클라이언트 키 |

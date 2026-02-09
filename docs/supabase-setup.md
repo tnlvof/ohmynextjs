@@ -1,4 +1,4 @@
-# Supabase 설정 가이드
+﻿# Supabase 설정 가이드
 
 ## 1. 프로젝트 생성
 
@@ -14,7 +14,7 @@
 | 항목 | 환경변수 | 설명 |
 |------|---------|------|
 | Project URL | `NEXT_PUBLIC_SUPABASE_URL` | `https://xxx.supabase.co` 형식 |
-| anon (public) | `NEXT_PUBLIC_SUPABASE_ANON_KEY` | 클라이언트에서 사용하는 공개 키 |
+| anon (public) | `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` | 클라이언트에서 사용하는 공개 키 |
 | service_role | `SUPABASE_SERVICE_ROLE_KEY` | 서버 전용 비밀 키 (절대 노출 금지!) |
 
 ## 3. DB 연결 문자열

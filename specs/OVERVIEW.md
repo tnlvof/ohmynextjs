@@ -1,4 +1,4 @@
-# OVERVIEW — OhMyNextJS 프로젝트 전체 스펙
+﻿# OVERVIEW — OhMyNextJS 프로젝트 전체 스펙
 
 ## 1. 프로젝트 목적
 
@@ -154,4 +154,4 @@ Vercel Engineering의 40+ 룰, 8개 카테고리를 따른다:
 ### 환경 변수
 - 모든 환경 변수는 `NEXT_PUBLIC_` prefix로 클라이언트 노출 여부 구분
 - 서버 전용: `SUPABASE_SERVICE_ROLE_KEY`, `TOSS_SECRET_KEY`
-- 클라이언트: `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`
+- 클라이언트: `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`

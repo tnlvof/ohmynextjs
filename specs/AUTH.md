@@ -1,58 +1,49 @@
-# AUTH — 인증 모듈 상세 스펙
+﻿# AUTH ???�증 모듈 ?�세 ?�펙
 
-## 1. 목적과 범위
+## 1. 목적�?범위
 
-Supabase Auth 기반 인증을 처리한다. 소셜 로그인(Google, Kakao, Naver, GitHub)과 이메일/비밀번호 로그인을 모두 코드로 구현하되, 실제 활성화는 Supabase 대시보드 설정에 의존한다.
+Supabase Auth 기반 ?�증??처리?�다. ?�셜 로그??Google, Kakao, Naver, GitHub)�??�메??비�?번호 로그?�을 모두 코드�?구현?�되, ?�제 ?�성?�는 Supabase ?�?�보???�정???�존?�다.
 
-## 2. 패키지 구조
+## 2. ?�키지 구조
 
 ```
 packages/auth/
-├── src/
-│   ├── index.ts                # Public API
-│   ├── supabase/
-│   │   ├── client.ts           # 브라우저용 Supabase 클라이언트
-│   │   ├── server.ts           # 서버용 Supabase 클라이언트
-│   │   └── middleware.ts       # Next.js 미들웨어용 클라이언트
-│   ├── actions/
-│   │   ├── sign-in.ts          # 로그인 서버 액션
-│   │   ├── sign-up.ts          # 회원가입 서버 액션
-│   │   ├── sign-out.ts         # 로그아웃 서버 액션
-│   │   ├── oauth.ts            # 소셜 로그인 서버 액션
-│   │   └── reset-password.ts   # 비밀번호 재설정
-│   ├── components/
-│   │   ├── auth-form.tsx       # 로그인/회원가입 통합 폼
-│   │   ├── social-buttons.tsx  # 소셜 로그인 버튼 그룹
-│   │   ├── user-button.tsx     # 유저 아바타 드롭다운
-│   │   └── auth-guard.tsx      # 인증 필수 래퍼
-│   ├── hooks/
-│   │   ├── use-user.ts         # 현재 유저 정보
-│   │   └── use-session.ts      # 세션 상태
-│   ├── middleware.ts            # Auth 미들웨어 헬퍼
-│   └── types.ts                # 인증 관련 타입
-├── package.json
-└── tsconfig.json
+?��??� src/
+??  ?��??� index.ts                # Public API
+??  ?��??� supabase/
+??  ??  ?��??� client.ts           # 브라?��???Supabase ?�라?�언????  ??  ?��??� server.ts           # ?�버??Supabase ?�라?�언????  ??  ?��??� middleware.ts       # Next.js 미들?�어???�라?�언????  ?��??� actions/
+??  ??  ?��??� sign-in.ts          # 로그???�버 ?�션
+??  ??  ?��??� sign-up.ts          # ?�원가???�버 ?�션
+??  ??  ?��??� sign-out.ts         # 로그?�웃 ?�버 ?�션
+??  ??  ?��??� oauth.ts            # ?�셜 로그???�버 ?�션
+??  ??  ?��??� reset-password.ts   # 비�?번호 ?�설????  ?��??� components/
+??  ??  ?��??� auth-form.tsx       # 로그???�원가???�합 ????  ??  ?��??� social-buttons.tsx  # ?�셜 로그??버튼 그룹
+??  ??  ?��??� user-button.tsx     # ?��? ?�바?� ?�롭?�운
+??  ??  ?��??� auth-guard.tsx      # ?�증 ?�수 ?�퍼
+??  ?��??� hooks/
+??  ??  ?��??� use-user.ts         # ?�재 ?��? ?�보
+??  ??  ?��??� use-session.ts      # ?�션 ?�태
+??  ?��??� middleware.ts            # Auth 미들?�어 ?�퍼
+??  ?��??� types.ts                # ?�증 관???�???��??� package.json
+?��??� tsconfig.json
 ```
 
-## 3. 상세 요구사항
+## 3. ?�세 ?�구?�항
 
-### 3.1 Supabase 클라이언트
-
-#### 브라우저 클라이언트
-```typescript
+### 3.1 Supabase ?�라?�언??
+#### 브라?��? ?�라?�언??```typescript
 // supabase/client.ts
 import { createBrowserClient } from '@supabase/ssr';
 
 export function createClient() {
   return createBrowserClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+    process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY!
   );
 }
 ```
 
-#### 서버 클라이언트
-```typescript
+#### ?�버 ?�라?�언??```typescript
 // supabase/server.ts
 import { createServerClient } from '@supabase/ssr';
 import { cookies } from 'next/headers';
@@ -61,7 +52,7 @@ export async function createClient() {
   const cookieStore = await cookies();
   return createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY!,
     {
       cookies: {
         getAll() { return cookieStore.getAll(); },
@@ -76,7 +67,7 @@ export async function createClient() {
 }
 ```
 
-#### Admin 클라이언트 (서버 전용)
+#### Admin ?�라?�언??(?�버 ?�용)
 ```typescript
 // supabase/admin.ts
 import { createClient } from '@supabase/supabase-js';
@@ -88,10 +79,9 @@ export const supabaseAdmin = createClient(
 );
 ```
 
-### 3.2 이메일/비밀번호 인증
+### 3.2 ?�메??비�?번호 ?�증
 
-#### 회원가입
-```typescript
+#### ?�원가??```typescript
 // actions/sign-up.ts
 'use server';
 
@@ -102,13 +92,12 @@ interface SignUpInput {
 }
 
 // 1. supabase.auth.signUp({ email, password })
-// 2. 성공 시 users 테이블에 프로필 생성 (DB trigger 또는 수동)
-// 3. 이메일 확인 메일 자동 발송 (Supabase 설정)
+// 2. ?�공 ??users ?�이블에 ?�로???�성 (DB trigger ?�는 ?�동)
+// 3. ?�메???�인 메일 ?�동 발송 (Supabase ?�정)
 // 4. redirect to /auth/verify-email
 ```
 
-#### 로그인
-```typescript
+#### 로그??```typescript
 // actions/sign-in.ts
 'use server';
 
@@ -118,22 +107,21 @@ interface SignInInput {
 }
 
 // 1. supabase.auth.signInWithPassword({ email, password })
-// 2. 성공 시 users.last_sign_in_at 업데이트
+// 2. ?�공 ??users.last_sign_in_at ?�데?�트
 // 3. redirect to /dashboard
-// 에러: 'Invalid login credentials' → '이메일 또는 비밀번호가 올바르지 않습니다'
+// ?�러: 'Invalid login credentials' ??'?�메???�는 비�?번호가 ?�바르�? ?�습?�다'
 ```
 
-#### 비밀번호 재설정
-```typescript
+#### 비�?번호 ?�설??```typescript
 // actions/reset-password.ts
 'use server';
 
 // 1. supabase.auth.resetPasswordForEmail(email, { redirectTo })
-// 2. /auth/reset-password?code=xxx 페이지에서 새 비밀번호 입력
+// 2. /auth/reset-password?code=xxx ?�이지?�서 ??비�?번호 ?�력
 // 3. supabase.auth.updateUser({ password: newPassword })
 ```
 
-### 3.3 소셜 로그인 (OAuth)
+### 3.3 ?�셜 로그??(OAuth)
 
 ```typescript
 // actions/oauth.ts
@@ -159,39 +147,37 @@ export async function signInWithOAuth(provider: OAuthProvider) {
 ```typescript
 // apps/web/app/api/auth/callback/route.ts
 // GET /api/auth/callback?code=xxx
-// 1. code → session 교환
-// 2. users 테이블에 프로필 upsert
+// 1. code ??session 교환
+// 2. users ?�이블에 ?�로??upsert
 // 3. redirect to /dashboard
 ```
 
-#### Provider별 Supabase 대시보드 설정 가이드
+#### Provider�?Supabase ?�?�보???�정 가?�드
 
-| Provider | Client ID 환경변수 | Redirect URL |
+| Provider | Client ID ?�경변??| Redirect URL |
 |----------|-------------------|--------------|
-| Google | Supabase 대시보드에서 설정 | `{SUPABASE_URL}/auth/v1/callback` |
-| Kakao | Supabase 대시보드에서 설정 | `{SUPABASE_URL}/auth/v1/callback` |
-| Naver | Supabase 대시보드에서 설정 | `{SUPABASE_URL}/auth/v1/callback` |
-| GitHub | Supabase 대시보드에서 설정 | `{SUPABASE_URL}/auth/v1/callback` |
+| Google | Supabase ?�?�보?�에???�정 | `{SUPABASE_URL}/auth/v1/callback` |
+| Kakao | Supabase ?�?�보?�에???�정 | `{SUPABASE_URL}/auth/v1/callback` |
+| Naver | Supabase ?�?�보?�에???�정 | `{SUPABASE_URL}/auth/v1/callback` |
+| GitHub | Supabase ?�?�보?�에???�정 | `{SUPABASE_URL}/auth/v1/callback` |
 
-### 3.4 Auth 미들웨어
+### 3.4 Auth 미들?�어
 
 ```typescript
 // middleware.ts
-// Next.js middleware에서 사용
-// 1. 세션 갱신 (토큰 리프레시)
-// 2. 보호된 라우트 체크
-// 3. 미인증 시 /auth/login으로 리다이렉트
-// 4. 관리자 라우트: role 체크
+// Next.js middleware?�서 ?�용
+// 1. ?�션 갱신 (?�큰 리프?�시)
+// 2. 보호???�우??체크
+// 3. 미인�???/auth/login?�로 리다?�렉??// 4. 관리자 ?�우?? role 체크
 
 export const protectedRoutes = ['/dashboard', '/settings', '/billing'];
 export const adminRoutes = ['/admin'];
-export const authRoutes = ['/auth/login', '/auth/signup']; // 로그인 상태면 리다이렉트
-```
+export const authRoutes = ['/auth/login', '/auth/signup']; // 로그???�태�?리다?�렉??```
 
-### 3.5 Supabase DB Trigger (유저 자동 생성)
+### 3.5 Supabase DB Trigger (?��? ?�동 ?�성)
 
 ```sql
--- Supabase에서 auth.users 생성 시 public.users에 자동 삽입
+-- Supabase?�서 auth.users ?�성 ??public.users???�동 ?�입
 CREATE OR REPLACE FUNCTION public.handle_new_user()
 RETURNS trigger AS $$
 BEGIN
@@ -212,22 +198,20 @@ CREATE TRIGGER on_auth_user_created
   FOR EACH ROW EXECUTE FUNCTION public.handle_new_user();
 ```
 
-### 3.6 컴포넌트
+### 3.6 컴포?�트
 
 #### AuthForm
 ```typescript
 interface AuthFormProps {
   mode: 'login' | 'signup';
   showSocial?: boolean;       // 기본: true
-  redirectTo?: string;        // 로그인 후 이동 경로
+  redirectTo?: string;        // 로그?????�동 경로
 }
 
-// - 이메일/비밀번호 입력 폼
-// - mode에 따라 로그인/회원가입 전환 링크
-// - 비밀번호 재설정 링크 (로그인 모드)
-// - 하단에 SocialButtons
-// - react-hook-form + zod 유효성 검증
-```
+// - ?�메??비�?번호 ?�력 ??// - mode???�라 로그???�원가???�환 링크
+// - 비�?번호 ?�설??링크 (로그??모드)
+// - ?�단??SocialButtons
+// - react-hook-form + zod ?�효??검�?```
 
 #### SocialButtons
 ```typescript
@@ -236,10 +220,10 @@ interface SocialButtonsProps {
   size?: 'sm' | 'default' | 'lg';
 }
 
-// - 각 provider별 아이콘 + 브랜드 컬러
+// - �?provider�??�이�?+ 브랜??컬러
 // - Google: #4285F4, Kakao: #FEE500, Naver: #03C75A, GitHub: #333
-// - 클릭 시 signInWithOAuth 호출
-// - 로딩 상태 표시
+// - ?�릭 ??signInWithOAuth ?�출
+// - 로딩 ?�태 ?�시
 ```
 
 #### UserButton
@@ -248,16 +232,16 @@ interface UserButtonProps {
   showName?: boolean;         // 기본: false
 }
 
-// - 아바타 이미지 (없으면 이니셜)
-// - 드롭다운: 프로필, 설정, 빌링, 로그아웃
-// - 관리자인 경우: '관리자 대시보드' 메뉴 추가
+// - ?�바?� ?��?지 (?�으�??�니??
+// - ?�롭?�운: ?�로?? ?�정, 빌링, 로그?�웃
+// - 관리자??경우: '관리자 ?�?�보?? 메뉴 추�?
 ```
 
 #### AuthGuard
 ```typescript
 interface AuthGuardProps {
   children: React.ReactNode;
-  fallback?: React.ReactNode;  // 미인증 시 표시 (기본: redirect)
+  fallback?: React.ReactNode;  // 미인�????�시 (기본: redirect)
   requiredRole?: 'admin' | 'user';
 }
 ```
@@ -266,7 +250,7 @@ interface AuthGuardProps {
 
 ```typescript
 // hooks/use-user.ts
-// 현재 로그인한 유저 정보 (users 테이블 기준)
+// ?�재 로그?�한 ?��? ?�보 (users ?�이�?기�?)
 export function useUser(): {
   user: User | null;
   isLoading: boolean;
@@ -275,7 +259,7 @@ export function useUser(): {
 }
 
 // hooks/use-session.ts
-// Supabase 세션 상태
+// Supabase ?�션 ?�태
 export function useSession(): {
   session: Session | null;
   isAuthenticated: boolean;
@@ -283,28 +267,26 @@ export function useSession(): {
 }
 ```
 
-## 4. 환경 변수
-
+## 4. ?�경 변??
 ```env
 NEXT_PUBLIC_SUPABASE_URL=https://xxx.supabase.co
-NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJ...
-SUPABASE_SERVICE_ROLE_KEY=eyJ...     # 서버 전용
+NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=eyJ...
+SUPABASE_SERVICE_ROLE_KEY=eyJ...     # ?�버 ?�용
 NEXT_PUBLIC_APP_URL=http://localhost:3000
 ```
 
-## 5. 에러 처리
+## 5. ?�러 처리
 
-| 에러 코드 | 상황 | 사용자 메시지 |
+| ?�러 코드 | ?�황 | ?�용??메시지 |
 |-----------|------|-------------|
-| `AUTH_INVALID_CREDENTIALS` | 잘못된 이메일/비밀번호 | 이메일 또는 비밀번호가 올바르지 않습니다 |
-| `AUTH_EMAIL_EXISTS` | 이미 가입된 이메일 | 이미 가입된 이메일입니다 |
-| `AUTH_WEAK_PASSWORD` | 비밀번호 6자 미만 | 비밀번호는 6자 이상이어야 합니다 |
-| `AUTH_EMAIL_NOT_CONFIRMED` | 이메일 미인증 | 이메일 인증을 완료해주세요 |
-| `AUTH_USER_BANNED` | 밴된 유저 | 계정이 정지되었습니다 |
-| `AUTH_SESSION_EXPIRED` | 세션 만료 | 다시 로그인해주세요 |
+| `AUTH_INVALID_CREDENTIALS` | ?�못???�메??비�?번호 | ?�메???�는 비�?번호가 ?�바르�? ?�습?�다 |
+| `AUTH_EMAIL_EXISTS` | ?��? 가?�된 ?�메??| ?��? 가?�된 ?�메?�입?�다 |
+| `AUTH_WEAK_PASSWORD` | 비�?번호 6??미만 | 비�?번호??6???�상?�어???�니??|
+| `AUTH_EMAIL_NOT_CONFIRMED` | ?�메??미인�?| ?�메???�증???�료?�주?�요 |
+| `AUTH_USER_BANNED` | 밴된 ?��? | 계정???��??�었?�니??|
+| `AUTH_SESSION_EXPIRED` | ?�션 만료 | ?�시 로그?�해주세??|
 
-## 6. 의존성
-
+## 6. ?�존??
 ```json
 {
   "dependencies": {
@@ -334,39 +316,38 @@ export { authMiddleware, protectedRoutes, adminRoutes } from './middleware';
 export type { OAuthProvider, User } from './types';
 ```
 
-## 8. 테스트 전략
+## 8. ?�스???�략
 
-| 대상 | 유형 | 주요 케이스 |
+| ?�??| ?�형 | 주요 케?�스 |
 |------|------|------------|
-| `signIn` | 단위 (Vitest) | 성공, 잘못된 credentials, 밴된 유저, 이메일 미인증 |
-| `signUp` | 단위 | 성공, 중복 이메일, 약한 비밀번호, users 테이블 동기화 |
-| `signOut` | 단위 | 세션 삭제, 쿠키 정리 |
-| `signInWithOAuth` | 단위 | 리다이렉트 URL 생성, provider별 queryParams |
-| `resetPassword` | 단위 | 이메일 발송, 새 비밀번호 설정 |
-| `authMiddleware` | 단위 | 보호 라우트 리다이렉트, admin 라우트 role 체크, 세션 갱신 |
-| `AuthForm` | 컴포넌트 | 로그인/회원가입 모드 전환, 유효성 검증, 에러 표시, 제출 |
-| `SocialButtons` | 컴포넌트 | 버튼 렌더링, 클릭 시 OAuth 호출, 로딩 상태 |
-| `UserButton` | 컴포넌트 | 아바타 표시, 드롭다운 메뉴, admin 메뉴 조건부 표시 |
-| `AuthGuard` | 컴포넌트 | 인증 시 children 렌더링, 미인증 시 fallback/리다이렉트 |
-| `useUser` / `useSession` | 단위 | 로딩 상태, 유저 데이터 반환, 에러 처리 |
-| 로그인 플로우 | E2E (Playwright) | 이메일 로그인, 잘못된 비밀번호, 미인증 리다이렉트 |
+| `signIn` | ?�위 (Vitest) | ?�공, ?�못??credentials, 밴된 ?��?, ?�메??미인�?|
+| `signUp` | ?�위 | ?�공, 중복 ?�메?? ?�한 비�?번호, users ?�이�??�기??|
+| `signOut` | ?�위 | ?�션 ??��, 쿠키 ?�리 |
+| `signInWithOAuth` | ?�위 | 리다?�렉??URL ?�성, provider�?queryParams |
+| `resetPassword` | ?�위 | ?�메??발송, ??비�?번호 ?�정 |
+| `authMiddleware` | ?�위 | 보호 ?�우??리다?�렉?? admin ?�우??role 체크, ?�션 갱신 |
+| `AuthForm` | 컴포?�트 | 로그???�원가??모드 ?�환, ?�효??검�? ?�러 ?�시, ?�출 |
+| `SocialButtons` | 컴포?�트 | 버튼 ?�더�? ?�릭 ??OAuth ?�출, 로딩 ?�태 |
+| `UserButton` | 컴포?�트 | ?�바?� ?�시, ?�롭?�운 메뉴, admin 메뉴 조건부 ?�시 |
+| `AuthGuard` | 컴포?�트 | ?�증 ??children ?�더�? 미인�???fallback/리다?�렉??|
+| `useUser` / `useSession` | ?�위 | 로딩 ?�태, ?��? ?�이??반환, ?�러 처리 |
+| 로그???�로??| E2E (Playwright) | ?�메??로그?? ?�못??비�?번호, 미인�?리다?�렉??|
 
-## 9. 보안 고려사항
+## 9. 보안 고려?�항
 
-- **Supabase Auth 위임**: 비밀번호 해싱, 토큰 관리 등 직접 구현 금지
-- **세션 갱신**: 미들웨어에서 매 요청마다 토큰 리프레시
-- **banned 유저**: 로그인 차단 + 기존 세션 무효화 (`supabaseAdmin.auth.admin.signOut`)
-- **Rate Limiting**: 로그인/회원가입 엔드포인트에 10회/분 제한 (IP 기준)
-- **OAuth callback**: state 파라미터 검증 (CSRF 방지, Supabase가 자동 처리)
-- **환경 변수**: `SUPABASE_SERVICE_ROLE_KEY`는 서버 전용, 클라이언트 절대 노출 금지
-- **에러 메시지**: 유저 존재 여부를 유추할 수 없도록 일반적 메시지 사용
+- **Supabase Auth ?�임**: 비�?번호 ?�싱, ?�큰 관�???직접 구현 금�?
+- **?�션 갱신**: 미들?�어?�서 �??�청마다 ?�큰 리프?�시
+- **banned ?��?**: 로그??차단 + 기존 ?�션 무효??(`supabaseAdmin.auth.admin.signOut`)
+- **Rate Limiting**: 로그???�원가???�드?�인?�에 10??�??�한 (IP 기�?)
+- **OAuth callback**: state ?�라미터 검�?(CSRF 방�?, Supabase가 ?�동 처리)
+- **?�경 변??*: `SUPABASE_SERVICE_ROLE_KEY`???�버 ?�용, ?�라?�언???��? ?�출 금�?
+- **?�러 메시지**: ?��? 존재 ?��?�??�추?????�도�??�반??메시지 ?�용
 
-## 10. 구현 우선순위
+## 10. 구현 ?�선?�위
 
-1. Supabase 클라이언트 (browser + server)
-2. 이메일/비밀번호 로그인/회원가입
-3. DB trigger (유저 자동 생성)
-4. OAuth (Google → GitHub → Kakao → Naver)
-5. 미들웨어
-6. 컴포넌트 (AuthForm → SocialButtons → UserButton)
+1. Supabase ?�라?�언??(browser + server)
+2. ?�메??비�?번호 로그???�원가??3. DB trigger (?��? ?�동 ?�성)
+4. OAuth (Google ??GitHub ??Kakao ??Naver)
+5. 미들?�어
+6. 컴포?�트 (AuthForm ??SocialButtons ??UserButton)
 7. Hooks

@@ -2,4 +2,4 @@
 export { createClient as createServerClient } from './supabase/server';
 export { supabaseAdmin } from './supabase/admin';
 export { signIn, signUp, signOut, signInWithOAuth, resetPassword } from './actions';
-export { authMiddleware, protectedRoutes, adminRoutes } from './middleware';
+export { updateSession } from './supabase/proxy';
