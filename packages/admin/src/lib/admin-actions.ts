@@ -1,6 +1,6 @@
 import { getCurrentUser } from './get-current-user';
 import { db } from '@ohmynextjs/db';
-import { supabaseAdmin } from '@ohmynextjs/auth';
+import { supabaseAdmin } from '@ohmynextjs/auth/server';
 
 // Types
 interface AdminStats {

@@ -1,9 +1,9 @@
 import { Header, Sidebar } from '@ohmynextjs/core';
 
 const sidebarItems = [
-  { label: '대시보드', href: '/dashboard' },
-  { label: '설정', href: '/settings' },
-  { label: '빌링', href: '/billing' },
+  { label: '대시보드', href: '/dashboard', icon: '🏠' },
+  { label: '설정', href: '/settings', icon: '⚙️' },
+  { label: '빌링', href: '/billing', icon: '💳' },
 ];
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {

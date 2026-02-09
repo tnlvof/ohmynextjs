@@ -1,4 +1,4 @@
-import { authMiddleware } from '@ohmynextjs/auth';
+import { authMiddleware } from '@ohmynextjs/auth/server';
 
 export default authMiddleware;
 

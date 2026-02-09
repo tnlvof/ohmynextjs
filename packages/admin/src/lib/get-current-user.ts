@@ -5,7 +5,7 @@ import type { User } from '@ohmynextjs/auth';
 export async function getCurrentUser(): Promise<User | null> {
   // In a real app, this would use server-side auth
   // e.g., cookies-based session check via supabase server client
-  const { createServerClient } = await import('@ohmynextjs/auth');
+  const { createServerClient } = await import('@ohmynextjs/auth/server');
   const { cookies } = await import('next/headers');
   const cookieStore = await cookies();
   const supabase = createServerClient(cookieStore as any);
