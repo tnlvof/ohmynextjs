@@ -8,10 +8,10 @@
     "apps/*"
   ],
   "scripts": {
-    "dev": "bun --filter web dev",
-    "build": "bun --filter web build",
-    "start": "bun --filter web start",
-    "lint": "bun --filter web lint",
+    "dev": "bun --filter @ohmynextjs/web dev",
+    "build": "bun --filter @ohmynextjs/web build",
+    "start": "bun --filter @ohmynextjs/web start",
+    "lint": "bun --filter @ohmynextjs/web lint",
     "test": "bun --filter '*' test",
     "test:db": "bun --filter @ohmynextjs/db test",
     "test:core": "bun --filter @ohmynextjs/core test",
@@ -19,7 +19,7 @@
     "test:admin": "bun --filter @ohmynextjs/admin test",
     "test:payment": "bun --filter @ohmynextjs/payment test",
     "test:ai-agent": "bun --filter @ohmynextjs/ai-agent test",
-    "test:web": "bun --filter web test",
+    "test:web": "bun --filter @ohmynextjs/web test",
     "db:generate": "bun --filter @ohmynextjs/db db:generate",
     "db:migrate": "bun --filter @ohmynextjs/db db:migrate",
     "db:push": "bun --filter @ohmynextjs/db db:push",
