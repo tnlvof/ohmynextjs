@@ -35,8 +35,8 @@ const PROVIDER_CONFIG: Record<OAuthProvider, { label: string; color: string; ico
     label: '네이버',
     color: 'bg-[#03C75A] hover:bg-[#02b351] text-white',
     icon: (
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="white">
-        <path d="M16.27 3H7.73v7.62L6 3H3v18h3l1.73-7.62V21h8.54v-7.62L18 21h3V3h-3l-1.73 7.62V3z"/>
+      <svg width="18" height="18" viewBox="0 0 20 20" fill="white">
+        <path d="M13.39 10.55L6.61 2H2v16h4.61V9.45L13.39 18H18V2h-4.61z"/>
       </svg>
     ),
   },
