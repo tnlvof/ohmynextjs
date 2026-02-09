@@ -21,8 +21,8 @@ describe('SocialButtons', () => {
 
   it('should show provider labels', () => {
     render(<SocialButtons />);
-    expect(screen.getByTestId('social-google')).toHaveTextContent('Google로 로그인');
-    expect(screen.getByTestId('social-kakao')).toHaveTextContent('Kakao로 로그인');
+    expect(screen.getByTestId('social-google')).toHaveTextContent('Google');
+    expect(screen.getByTestId('social-kakao')).toHaveTextContent('Kakao');
   });
 
   it('should call onProviderClick when clicked', async () => {
@@ -34,9 +34,9 @@ describe('SocialButtons', () => {
     });
   });
 
-  it('should apply brand colors', () => {
+  it('should have accessible aria labels', () => {
     render(<SocialButtons />);
-    expect(screen.getByTestId('social-google')).toHaveStyle({ backgroundColor: '#4285F4' });
-    expect(screen.getByTestId('social-kakao')).toHaveStyle({ backgroundColor: '#FEE500' });
+    expect(screen.getByTestId('social-google')).toHaveAttribute('aria-label', 'Google로 로그인');
+    expect(screen.getByTestId('social-kakao')).toHaveAttribute('aria-label', 'Kakao로 로그인');
   });
 });

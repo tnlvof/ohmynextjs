@@ -11,7 +11,13 @@ export default function PublicLayout({ children }: { children: React.ReactNode }
         ]}
       />
       <main className="flex-1">{children}</main>
-      <Footer links={[]} />
+      <Footer
+        copyright="© 2024 OhMyNextJS. All rights reserved."
+        links={[
+          { label: '이용약관', href: '/terms' },
+          { label: '개인정보처리방침', href: '/terms' },
+        ]}
+      />
     </div>
   );
 }
