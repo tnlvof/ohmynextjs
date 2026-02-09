@@ -1,4 +1,94 @@
+'use client';
+
+import { BillingPortal, useSubscription } from '@ohmynextjs/payment';
+import type { Subscription, Plan, Payment } from '@ohmynextjs/payment';
+
+// Mock data - in production, fetch from API/server actions
+const mockPlan: Plan = {
+  id: 'pro',
+  name: 'Pro',
+  slug: 'pro',
+  description: '프로 사용자를 위한 모든 기능',
+  price: 29000,
+  currency: 'KRW',
+  interval: '월',
+  intervalCount: 1,
+  features: ['무제한 프로젝트', '우선 지원', '고급 분석', 'API 접근'],
+  isActive: true,
+  sortOrder: 2,
+  metadata: null,
+};
+
+const mockPlans: Plan[] = [
+  {
+    id: 'basic',
+    name: 'Basic',
+    slug: 'basic',
+    description: '개인 사용자를 위한 기본 플랜',
+    price: 9000,
+    currency: 'KRW',
+    interval: '월',
+    intervalCount: 1,
+    features: ['프로젝트 3개', '기본 지원'],
+    isActive: true,
+    sortOrder: 1,
+    metadata: null,
+  },
+  mockPlan,
+  {
+    id: 'enterprise',
+    name: 'Enterprise',
+    slug: 'enterprise',
+    description: '팀과 기업을 위한 엔터프라이즈',
+    price: 99000,
+    currency: 'KRW',
+    interval: '월',
+    intervalCount: 1,
+    features: ['무제한 모든 기능', '전담 지원', 'SLA 보장', '커스텀 연동'],
+    isActive: true,
+    sortOrder: 3,
+    metadata: null,
+  },
+];
+
+const mockSubscription: Subscription = {
+  id: 'sub_1',
+  userId: 'user_1',
+  planId: 'pro',
+  billingKey: null,
+  status: 'active',
+  currentPeriodStart: new Date('2026-02-01'),
+  currentPeriodEnd: new Date('2026-03-01'),
+  cancelAtPeriodEnd: false,
+  cancelledAt: null,
+  trialStart: null,
+  trialEnd: null,
+  metadata: null,
+  createdAt: new Date('2025-12-01'),
+  updatedAt: new Date('2026-02-01'),
+};
+
+const mockPayments: Payment[] = [
+  { id: 'pay_1', userId: 'user_1', planId: 'pro', orderId: 'OMN_20260201001', paymentKey: 'pk_1', amount: 29000, currency: 'KRW', status: 'paid', method: 'card', receiptUrl: null, failReason: null, cancelReason: null, cancelAmount: null, paidAt: new Date('2026-02-01'), cancelledAt: null, metadata: null, createdAt: new Date('2026-02-01'), updatedAt: new Date('2026-02-01') },
+  { id: 'pay_2', userId: 'user_1', planId: 'pro', orderId: 'OMN_20260101001', paymentKey: 'pk_2', amount: 29000, currency: 'KRW', status: 'paid', method: 'card', receiptUrl: null, failReason: null, cancelReason: null, cancelAmount: null, paidAt: new Date('2026-01-01'), cancelledAt: null, metadata: null, createdAt: new Date('2026-01-01'), updatedAt: new Date('2026-01-01') },
+  { id: 'pay_3', userId: 'user_1', planId: 'pro', orderId: 'OMN_20251201001', paymentKey: 'pk_3', amount: 29000, currency: 'KRW', status: 'paid', method: 'card', receiptUrl: null, failReason: null, cancelReason: null, cancelAmount: null, paidAt: new Date('2025-12-01'), cancelledAt: null, metadata: null, createdAt: new Date('2025-12-01'), updatedAt: new Date('2025-12-01') },
+];
+
 export default function BillingPage() {
+  const { cancel } = useSubscription(mockSubscription);
+
+  const handlePlanSelect = (planId: string) => {
+    // In production: redirect to payment flow
+    console.log('Selected plan:', planId);
+  };
+
+  const handleCancel = async () => {
+    // In production: call cancel subscription server action
+    await cancel(async () => {
+      console.log('Subscription cancelled');
+    });
+  };
+
   return (
     <div className="space-y-8">
       <div>
@@ -6,63 +96,14 @@ export default function BillingPage() {
         <p className="text-muted-foreground">구독 및 결제 내역을 관리하세요.</p>
       </div>
 
-      <div className="rounded-lg border bg-card p-6 shadow-sm">
-        <div className="flex items-center justify-between">
-          <div>
-            <h3 className="text-lg font-semibold">현재 플랜</h3>
-            <p className="text-sm text-muted-foreground">Pro 플랜을 사용 중입니다</p>
-          </div>
-          <div className="rounded-full bg-primary/10 px-3 py-1 text-sm font-medium text-primary">
-            Pro
-          </div>
-        </div>
-        <div className="mt-4 flex items-baseline gap-1">
-          <span className="text-3xl font-bold">₩29,000</span>
-          <span className="text-muted-foreground">/ 월</span>
-        </div>
-        <div className="mt-4 flex gap-3">
-          <button className="inline-flex h-9 items-center justify-center rounded-md border border-input bg-background px-4 text-sm font-medium transition-colors hover:bg-accent">
-            플랜 변경
-          </button>
-          <button className="inline-flex h-9 items-center justify-center rounded-md px-4 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground">
-            구독 취소
-          </button>
-        </div>
-      </div>
-
-      <div className="rounded-lg border bg-card p-6 shadow-sm">
-        <h3 className="mb-4 text-lg font-semibold">결제 내역</h3>
-        <div className="overflow-x-auto">
-          <table className="w-full text-sm">
-            <thead>
-              <tr className="border-b text-left">
-                <th className="pb-3 font-medium text-muted-foreground">날짜</th>
-                <th className="pb-3 font-medium text-muted-foreground">설명</th>
-                <th className="pb-3 font-medium text-muted-foreground">금액</th>
-                <th className="pb-3 text-right font-medium text-muted-foreground">상태</th>
-              </tr>
-            </thead>
-            <tbody>
-              {[
-                { date: '2026-02-01', desc: 'Pro 플랜 - 월간', amount: '₩29,000', status: '완료' },
-                { date: '2026-01-01', desc: 'Pro 플랜 - 월간', amount: '₩29,000', status: '완료' },
-                { date: '2025-12-01', desc: 'Pro 플랜 - 월간', amount: '₩29,000', status: '완료' },
-              ].map((row, i) => (
-                <tr key={i} className="border-b last:border-0">
-                  <td className="py-3">{row.date}</td>
-                  <td className="py-3">{row.desc}</td>
-                  <td className="py-3">{row.amount}</td>
-                  <td className="py-3 text-right">
-                    <span className="inline-flex items-center rounded-full bg-green-500/10 px-2 py-0.5 text-xs font-medium text-green-600">
-                      {row.status}
-                    </span>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </div>
+      <BillingPortal
+        subscription={mockSubscription}
+        plan={mockPlan}
+        plans={mockPlans}
+        payments={mockPayments}
+        onPlanSelect={handlePlanSelect}
+        onCancel={handleCancel}
+      />
     </div>
   );
 }
