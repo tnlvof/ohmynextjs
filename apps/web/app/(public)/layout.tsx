@@ -15,7 +15,7 @@ export default function PublicLayout({ children }: { children: React.ReactNode }
         copyright="© 2024 OhMyNextJS. All rights reserved."
         links={[
           { label: '이용약관', href: '/terms' },
-          { label: '개인정보처리방침', href: '/terms' },
+          { label: '개인정보처리방침', href: '/privacy' },
         ]}
       />
     </div>
