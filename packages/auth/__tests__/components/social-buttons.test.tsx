@@ -22,7 +22,7 @@ describe('SocialButtons', () => {
   it('should show provider labels', () => {
     render(<SocialButtons />);
     expect(screen.getByTestId('social-google')).toHaveTextContent('Google');
-    expect(screen.getByTestId('social-kakao')).toHaveTextContent('Kakao');
+    expect(screen.getByTestId('social-kakao')).toHaveTextContent('카카오');
   });
 
   it('should call onProviderClick when clicked', async () => {
@@ -37,6 +37,6 @@ describe('SocialButtons', () => {
   it('should have accessible aria labels', () => {
     render(<SocialButtons />);
     expect(screen.getByTestId('social-google')).toHaveAttribute('aria-label', 'Google로 로그인');
-    expect(screen.getByTestId('social-kakao')).toHaveAttribute('aria-label', 'Kakao로 로그인');
+    expect(screen.getByTestId('social-kakao')).toHaveAttribute('aria-label', '카카오로 로그인');
   });
 });
