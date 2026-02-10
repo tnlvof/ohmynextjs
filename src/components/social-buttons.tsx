@@ -11,7 +11,7 @@ interface SocialButtonsProps {
 const PROVIDER_CONFIG: Record<OAuthProvider, { label: string; color: string; icon: React.ReactNode }> = {
   google: {
     label: 'Google',
-    color: 'hover:bg-[#f8f8f8]',
+    color: 'hover:bg-[#f8f8f8] dark:hover:bg-[#333]',
     icon: (
       <svg width="18" height="18" viewBox="0 0 24 24">
         <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z" fill="#4285F4"/>
@@ -66,7 +66,7 @@ export function SocialButtons({
   };
 
   return (
-    <div data-testid="social-buttons" className="grid grid-cols-2 gap-3">
+    <div data-testid="social-buttons" className="grid grid-cols-1 gap-2 sm:grid-cols-2 sm:gap-3">
       {providers.map((provider) => {
         const config = PROVIDER_CONFIG[provider];
         return (

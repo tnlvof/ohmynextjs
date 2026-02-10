@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { Check } from 'lucide-react';
 
 const plans = [
   {
@@ -13,7 +14,7 @@ const plans = [
   },
   {
     name: 'Pro',
-    price: '₩19,900',
+    price: '₩9,900',
     interval: '월',
     description: '성장하는 팀을 위한 플랜',
     features: ['모든 기능', '우선 지원', '무제한 프로젝트', 'API 접근', '팀 협업'],
@@ -35,19 +36,19 @@ const plans = [
 
 export default function PricingPage() {
   return (
-    <div className="container mx-auto max-w-screen-xl px-4 py-24">
+    <div className="container mx-auto max-w-screen-xl px-4 py-16 sm:py-24">
       <div className="text-center">
-        <h1 className="text-4xl font-bold tracking-tight">가격</h1>
-        <p className="mt-4 text-lg text-muted-foreground">
-          필요에 맞는 플랜을 선택하세요
+        <h1 className="text-3xl sm:text-4xl font-bold tracking-tight">가격</h1>
+        <p className="mt-4 text-base sm:text-lg text-muted-foreground">
+          필요에 맞는 플랜을 선택하세요.
         </p>
       </div>
 
-      <div className="mt-16 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+      <div className="mt-12 sm:mt-16 grid gap-6 sm:gap-8 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
         {plans.map((plan) => (
           <div
             key={plan.name}
-            className={`relative rounded-lg border p-8 ${plan.highlighted ? 'border-primary shadow-lg' : ''}`}
+            className={`relative rounded-lg border p-6 sm:p-8 ${plan.highlighted ? 'border-primary shadow-lg' : 'border-border'}`}
           >
             {plan.highlighted && (
               <div className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-primary px-3 py-1 text-xs font-medium text-primary-foreground">
@@ -57,15 +58,13 @@ export default function PricingPage() {
             <h3 className="text-xl font-bold">{plan.name}</h3>
             <p className="mt-2 text-sm text-muted-foreground">{plan.description}</p>
             <div className="mt-4">
-              <span className="text-4xl font-bold">{plan.price}</span>
+              <span className="text-3xl sm:text-4xl font-bold">{plan.price}</span>
               {plan.interval && <span className="text-muted-foreground">/{plan.interval}</span>}
             </div>
             <ul className="mt-6 space-y-3">
               {plan.features.map((feature) => (
                 <li key={feature} className="flex items-center text-sm">
-                  <svg className="mr-2 h-4 w-4 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                  </svg>
+                  <Check className="mr-2 h-4 w-4 text-primary flex-shrink-0" />
                   {feature}
                 </li>
               ))}

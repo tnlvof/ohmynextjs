@@ -43,8 +43,8 @@ export function AuthForm({ mode, showSocial = true, onSubmit, onOAuthClick }: Au
   };
 
   return (
-    <div data-testid="auth-form" className="mx-auto w-full max-w-md">
-      <div className="rounded-lg border bg-card p-8 shadow-sm">
+    <div data-testid="auth-form" className="mx-auto w-full max-w-md px-4 sm:px-0">
+      <div className="rounded-lg border border-border bg-card p-6 sm:p-8 shadow-sm">
         <div className="mb-6 text-center">
           <h2 className="text-2xl font-bold tracking-tight">
             {isLogin ? '로그인' : '회원가입'}
@@ -59,7 +59,7 @@ export function AuthForm({ mode, showSocial = true, onSubmit, onOAuthClick }: Au
             <SocialButtons onProviderClick={onOAuthClick} />
             <div className="relative my-6">
               <div className="absolute inset-0 flex items-center">
-                <span className="w-full border-t" />
+                <span className="w-full border-t border-border" />
               </div>
               <div className="relative flex justify-center text-xs uppercase">
                 <span className="bg-card px-2 text-muted-foreground">또는</span>
@@ -125,6 +125,7 @@ export function AuthForm({ mode, showSocial = true, onSubmit, onOAuthClick }: Au
         <div className="mt-6 text-center text-sm">
           {isLogin ? (
             <>
+              계정이 없으신가요?{' '}
               <Link href="/auth/signup" className="font-medium text-primary underline-offset-4 hover:underline">
                 회원가입
               </Link>

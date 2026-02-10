@@ -44,7 +44,7 @@ export async function updateSession(request: NextRequest) {
     }
   }
 
-  // 로그인 상태에서 auth 페이지 접근시 dashboard로
+  // 로그인 상태에서 auth 페이지 접근 시 dashboard로 리다이렉트
   if (user && request.nextUrl.pathname.startsWith('/auth/')) {
     const url = request.nextUrl.clone();
     url.pathname = '/dashboard';
