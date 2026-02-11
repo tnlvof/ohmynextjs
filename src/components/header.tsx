@@ -16,7 +16,7 @@ const defaultNavItems: NavItem[] = [
   { label: '문서', href: '/docs' },
 ];
 
-export function Header({ navItems = defaultNavItems }: { navItems?: NavItem[] }) {
+export function Header({ navItems = defaultNavItems, isAdmin = false }: { navItems?: NavItem[]; isAdmin?: boolean }) {
   const [mobileOpen, setMobileOpen] = useState(false);
 
   return (
@@ -44,6 +44,14 @@ export function Header({ navItems = defaultNavItems }: { navItems?: NavItem[] })
         </div>
 
         <div className="flex items-center gap-2">
+          {isAdmin && (
+            <Link
+              href="/admin"
+              className="hidden sm:inline-flex h-9 items-center justify-center rounded-md border border-input px-3 text-sm font-medium hover:bg-accent transition-colors"
+            >
+              관리자
+            </Link>
+          )}
           <a
             href="https://github.com"
             target="_blank"
