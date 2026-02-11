@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { users, plans, payments, subscriptions, appSettings, auditLogs } from './schema';
+import { users, plans, payments, subscriptions, appSettings, auditLogs, legalDocuments } from './schema';
 
 describe('schema', () => {
   it('exports users table', () => {
@@ -24,5 +24,9 @@ describe('schema', () => {
 
   it('exports auditLogs table', () => {
     expect(auditLogs).toBeDefined();
+  });
+
+  it('exports legalDocuments table', () => {
+    expect(legalDocuments).toBeDefined();
   });
 });

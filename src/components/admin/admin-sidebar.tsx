@@ -3,13 +3,14 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useState } from 'react';
-import { LayoutDashboard, Users, CreditCard, Settings, Menu, X } from 'lucide-react';
+import { LayoutDashboard, Users, CreditCard, Settings, Menu, X, FileText } from 'lucide-react';
 import { clsx } from 'clsx';
 
 const navItems = [
   { label: '대시보드', href: '/admin', icon: LayoutDashboard },
   { label: '유저 관리', href: '/admin/users', icon: Users },
   { label: '결제 내역', href: '/admin/payments', icon: CreditCard },
+  { label: '약관 관리', href: '/admin/legal', icon: FileText },
   { label: '앱 설정', href: '/admin/settings', icon: Settings },
 ];
 

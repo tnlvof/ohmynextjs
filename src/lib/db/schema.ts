@@ -116,6 +116,24 @@ export const appSettings = pgTable('app_settings', {
   keyIdx: uniqueIndex('app_settings_key_idx').on(table.key),
 }));
 
+// Legal Documents
+export const legalDocuments = pgTable('legal_documents', {
+  id: uuid('id').primaryKey().defaultRandom(),
+  type: text('type').notNull(), // 'terms' | 'privacy'
+  version: integer('version').notNull(),
+  title: text('title').notNull(),
+  content: text('content').notNull(),
+  isActive: boolean('is_active').default(false).notNull(),
+  effectiveDate: timestamp('effective_date', { withTimezone: true }),
+  createdBy: uuid('created_by').references(() => users.id, { onDelete: 'set null' }),
+  createdAt: timestamp('created_at', { withTimezone: true }).defaultNow().notNull(),
+  updatedAt: timestamp('updated_at', { withTimezone: true }).defaultNow().notNull(),
+}, (table) => ({
+  typeIdx: index('legal_documents_type_idx').on(table.type),
+  activeIdx: index('legal_documents_active_idx').on(table.type, table.isActive),
+  typeVersionIdx: uniqueIndex('legal_documents_type_version_idx').on(table.type, table.version),
+}));
+
 // Audit Logs
 export const auditLogs = pgTable('audit_logs', {
   id: uuid('id').primaryKey().defaultRandom(),
